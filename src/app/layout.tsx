@@ -21,6 +21,11 @@ const mpBold = localFont({
     variable: "--font-mp-bold",
 });
 
+const mpBlack = localFont({
+    src: "../styles/fonts/MP-Black.woff2",
+    variable: "--font-mp-black",
+});
+
 const dmSans = DM_Sans({
     variable: "--font-dm-sans",
     subsets: ["latin"],
@@ -44,6 +49,7 @@ export default function RootLayout({
                 ${mpRegular.variable}
                 ${mpMedium.variable}
                 ${mpBold.variable}
+                ${mpBlack.variable}
                 antialiased`}
             >
                 {children}

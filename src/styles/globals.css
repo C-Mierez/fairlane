@@ -30,6 +30,7 @@
     --font-brand: var(--font-mp-regular);
     --font-brand-medium: var(--font-mp-medium);
     --font-brand-bold: var(--font-mp-bold);
+    --font-brand-black: var(--font-mp-black);
 
     /* --------------------------------- Colors --------------------------------- */
     --color-background: var(--color-neutral-50);
