@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+    /* ---------------------------------- Font ---------------------------------- */
+
+    /* --------------------------------- Colors --------------------------------- */
+    --color-neutral-950: #0d0d0d;
+    --color-neutral-100: #f4f4f0;
+    --color-neutral-50: #ffffff;
+
+    --color-primary-500: #23a094;
+
+    --color-accent-500: #9458ad;
+
+    /* --------------------------------- General -------------------------------- */
+    --radius: 0.625rem;
+
+    --spacing-boxShadowX: 3px;
+    --spacing-boxShadowY: 3px;
+
+    --shadow: var(--spacing-boxShadowX) var(--spacing-boxShadowY) 0 0 var(--color-neutral-950);
+}
+
+@theme inline {
+    /* ---------------------------------- Fonts --------------------------------- */
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+
+    /* --------------------------------- Colors --------------------------------- */
+    --color-background: var(--color-neutral-50);
+    --color-foreground: var(--color-neutral-950);
+
+    --color-destructive: var(--color-primary-500);
+
+    --color-accent-foreground: var(--color-neutral-50);
+    --color-accent: var(--color-accent-500);
+
+    --color-muted-foreground: var(--color-neutral-950);
+    --color-muted: var(--color-neutral-100);
+
+    --color-secondary-foreground: var(--color-neutral-950);
+    --color-secondary: var(--color-neutral-100);
+
+    --color-primary-foreground: var(--color-neutral-50);
+    --color-primary: var(--color-primary-500);
+
+    --color-ring: var(--color-neutral-950);
+    --color-input: var(--color-neutral-50);
+    --color-border: var(--color-neutral-950);
+    --color-overlay: var(--color-neutral-950 / 0.8);
+
+    --color-popover-foreground: var(--color-neutral-950);
+    --color-popover: var(--color-neutral-100);
+
+    --color-card-foreground: var(--color-neutral-950);
+    --color-card: var(--color-neutral-50);
+
+    --color-sidebar-ring: var(--color-neutral-950);
+    --color-sidebar-border: var(--color-neutral-100);
+    --color-sidebar-accent-foreground: var(--color-neutral-50);
+    --color-sidebar-accent: var(--color-accent-500);
+    --color-sidebar-primary-foreground: var(--color-neutral-50);
+    --color-sidebar-primary: var(--color-primary-500);
+    --color-sidebar-foreground: var(--color-neutral-950);
+    --color-sidebar: var(--color-neutral-100);
+
+    /* --------------------------------- General -------------------------------- */
+    --radius-base: var(--radius);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --shadow-neo: var(--shadow);
+
+    --border-width-neo: 1px;
+
+    --font-weight-base: 500;
+    --font-weight-heading: 700;
+}
+
+@layer base {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    /* ---------------------- Pointer by default on Buttons --------------------- */
+    button,
+    [role="button"] {
+        cursor: pointer;
+    }
+    button:disabled,
+    [role="button"]:disabled {
+        cursor: default;
+    }
+}
+
+@layer utilities {
+    .neo-container {
+        @apply border-neo border-foreground rounded-sm;
+    }
+
+    .neo-container-expanded {
+        @apply border-neo border-foreground rounded-sm shadow-neo;
+    }
+}
