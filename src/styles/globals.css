@@ -34,6 +34,7 @@
 
     /* --------------------------------- Colors --------------------------------- */
     --color-background: var(--color-neutral-50);
+    --color-background-alt: var(--color-neutral-100);
     --color-foreground: var(--color-neutral-950);
 
     --color-destructive: var(--color-primary-500);
@@ -100,7 +101,7 @@
     }
 
     body {
-        @apply bg-background text-foreground font-sans;
+        @apply bg-background-alt text-foreground font-sans;
     }
 
     /* ---------------------- Pointer by default on Buttons --------------------- */
