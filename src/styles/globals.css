@@ -16,7 +16,7 @@
     --color-accent-500: #9458ad;
 
     /* --------------------------------- General -------------------------------- */
-    --radius: 0.625rem;
+    --radius: 0.375rem; /* 6px */
 
     --spacing-boxShadowX: 3px;
     --spacing-boxShadowY: 3px;
@@ -70,11 +70,12 @@
     --color-sidebar: var(--color-neutral-100);
 
     /* --------------------------------- General -------------------------------- */
+    /* Overriding all sizes for consistency with shadcn */
     --radius-base: var(--radius);
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: var(--radius);
+    --radius-md: var(--radius);
     --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
+    --radius-xl: var(--radius);
 
     --shadow-neo: var(--shadow);
 
@@ -114,10 +115,10 @@
 
 @layer utilities {
     .neo-container {
-        @apply border-neo border-foreground rounded-sm;
+        @apply border-neo border-foreground rounded;
     }
 
     .neo-container-expanded {
-        @apply border-neo border-foreground rounded-sm shadow-neo;
+        @apply border-neo border-foreground rounded shadow-neo;
     }
 }
