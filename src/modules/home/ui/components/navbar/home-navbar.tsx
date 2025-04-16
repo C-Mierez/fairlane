@@ -1,7 +1,9 @@
-import { cn } from "@lib/utils";
 import Link from "next/link";
-import { navbarItems } from "./content";
+
 import { Button } from "@components/ui/button";
+import { cn } from "@lib/utils";
+
+import { ctaItems, navbarItems } from "./content";
 
 export default function HomeNavbar() {
     return (
@@ -18,10 +20,9 @@ export default function HomeNavbar() {
             </nav>
             <div className="col-span-2 grid h-full grid-cols-2">
                 {/* TODO Add href */}
-                <NavbarCTA href="">Log In</NavbarCTA>
-                <NavbarCTA href="" isAlt>
-                    Start Selling
-                </NavbarCTA>
+                {ctaItems.map((item, index) => (
+                    <NavbarCTA key={item.name} item={item} isAlt={index === 1}></NavbarCTA>
+                ))}
             </div>
         </section>
     );
@@ -42,16 +43,15 @@ function NavbarItem({ item }: NavbarItemProps) {
 }
 
 interface NavbarCTAProps {
-    children: React.ReactNode;
-    href: string;
+    item: (typeof ctaItems)[number];
     isAlt?: boolean;
 }
 
-function NavbarCTA({ children, href, isAlt }: NavbarCTAProps) {
+function NavbarCTA({ item, isAlt }: NavbarCTAProps) {
     return (
         <Button asChild variant={isAlt ? "primaryAlt" : "primary"} hover={"none"} size={"expanded"}>
-            <Link href={href} className={cn("border-l-neo")}>
-                {children}
+            <Link href={item.href} className={cn("border-l-neo")}>
+                {item.name}
             </Link>
         </Button>
     );

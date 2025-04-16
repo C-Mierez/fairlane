@@ -21,3 +21,15 @@ export const navbarItems = [
         href: "/contact",
     },
 ];
+
+// TODO Add real href
+export const ctaItems = [
+    {
+        name: "Log In",
+        href: "/login",
+    },
+    {
+        name: "Start Selling",
+        href: "/dashboard",
+    },
+];
