@@ -11,7 +11,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
             toastOptions={{
                 unstyled: true,
                 classNames: {
-                    toast: "neo-container-expanded bg-background text-foreground font-heading text-sm flex items-center gap-2 p-4 w-[356px] [&:has(button)]:justify-between",
+                    toast: "neo-container-reverse bg-background text-foreground font-heading text-sm flex items-center gap-2 p-4 w-[356px] [&:has(button)]:justify-between",
                     description: "font-base",
                     actionButton: "neo-container font-base text-sm h-8 px-2 shrink-0",
                     cancelButton: "neo-container font-base text-sm h-8 px-2 shrink-0",
