@@ -11,7 +11,7 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default: "text-foreground bg-background",
-                nav: "bg-background text-foreground text-lg",
+                nav: "bg-background text-foreground text-base xl:text-lg",
                 primary: "bg-background text-foreground hover:bg-primary hover:text-primary-foreground",
                 primaryAlt: "bg-foreground text-background hover:bg-primary hover:text-primary-foreground",
             },
@@ -26,11 +26,12 @@ const buttonVariants = cva(
                 sm: "h-9 px-3",
                 lg: "h-11 px-8",
                 icon: "size-10",
-                expanded: "size-full text-lg",
+                expanded: "size-full text-base xl:text-lg px-4 py-2",
             },
         },
         defaultVariants: {
             variant: "default",
+            hover: "default",
             size: "default",
         },
     },
@@ -40,7 +41,7 @@ function Button({
     className,
     variant,
     size,
-    hover = "default",
+    hover,
     asChild = false,
     ...props
 }: React.ComponentProps<"button"> &

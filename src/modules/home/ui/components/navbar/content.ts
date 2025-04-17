@@ -1,5 +1,10 @@
+export type NavbarItemType = {
+    name: string;
+    href: string;
+};
+
 // TODO Add real href
-export const navbarItems = [
+export const navbarItems: NavbarItemType[] = [
     {
         name: "Home",
         href: "/",
@@ -22,14 +27,19 @@ export const navbarItems = [
     },
 ];
 
+export type NavbarCTAType = {
+    name: string;
+    href: string;
+};
+
 // TODO Add real href
-export const ctaItems = [
+export const ctaItems: NavbarCTAType[] = [
     {
         name: "Log In",
         href: "/login",
     },
     {
-        name: "Start Selling",
+        name: "Start",
         href: "/dashboard",
     },
 ];

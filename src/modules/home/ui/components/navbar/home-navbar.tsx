@@ -1,58 +1,40 @@
 import Link from "next/link";
 
-import { Button } from "@components/ui/button";
-import { cn } from "@lib/utils";
-
 import { ctaItems, navbarItems } from "./content";
+import { NavbarCTA } from "./navbar-cta";
+import { NavbarItem } from "./navbar-item";
+import NavbarMenu from "./navbar-menu";
+import BrandLogo from "@components/brand-logo";
 
 export default function HomeNavbar() {
     return (
-        <section className="bg-background border-b-neo h-header font-brand grid grid-cols-10 items-center text-lg">
-            <Link href={"/"} className="col-span-2 flex size-full items-center pl-8">
-                <div className="font-brand-black text-4xl leading-8 uppercase">Fairlane</div>
-            </Link>
-            <nav className="col-span-6">
+        <section className="bg-background border-b-neo h-header font-brand sticky top-0 right-0 left-0 z-50 grid w-full grid-cols-12 items-center">
+            <div className="col-span-3 flex size-full items-center pl-4 md:pl-8">
+                <BrandLogo href={"/"} />
+            </div>
+
+            <nav className="col-span-6 hidden lg:block">
                 <ul className="flex justify-center gap-2">
                     {navbarItems.map((item) => (
-                        <NavbarItem key={item.name} item={item} />
+                        <li key={item.name}>
+                            <NavbarItem item={item} />
+                        </li>
                     ))}
                 </ul>
             </nav>
-            <div className="col-span-2 grid h-full grid-cols-2">
+            <ul className="col-span-3 hidden h-full grid-cols-2 lg:grid xl:col-start-11">
                 {/* TODO Add href */}
                 {ctaItems.map((item, index) => (
-                    <NavbarCTA key={item.name} item={item} isAlt={index === 1}></NavbarCTA>
+                    <li key={item.name}>
+                        <NavbarCTA item={item} isAlt={index === 1} />
+                    </li>
                 ))}
+            </ul>
+
+            {/* Mobile Menu */}
+            <div className="col-span-4 col-start-9 flex items-center justify-end pr-4 md:pr-8 lg:hidden">
+                <NavbarMenu />
             </div>
         </section>
-    );
-}
-
-interface NavbarItemProps {
-    item: (typeof navbarItems)[number];
-}
-
-function NavbarItem({ item }: NavbarItemProps) {
-    return (
-        <li>
-            <Button asChild variant="nav" hover={"ghost"}>
-                <Link href={item.href}>{item.name}</Link>
-            </Button>
-        </li>
-    );
-}
-
-interface NavbarCTAProps {
-    item: (typeof ctaItems)[number];
-    isAlt?: boolean;
-}
-
-function NavbarCTA({ item, isAlt }: NavbarCTAProps) {
-    return (
-        <Button asChild variant={isAlt ? "primaryAlt" : "primary"} hover={"none"} size={"expanded"}>
-            <Link href={item.href} className={cn("border-l-neo")}>
-                {item.name}
-            </Link>
-        </Button>
     );
 }

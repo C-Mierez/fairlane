@@ -1,3 +1,9 @@
 export default function Home() {
-    return <div>Home Page</div>;
+    return (
+        <div>
+            <div>Top</div>
+            <div className="min-h-screen">Home Page</div>
+            <div className="min-h-screen">Home Page</div>
+        </div>
+    );
 }

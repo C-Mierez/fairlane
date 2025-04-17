@@ -1,0 +1,17 @@
+import Link from "next/link";
+
+import { Button } from "@components/ui/button";
+
+import { NavbarItemType } from "./content";
+
+interface NavbarItemProps {
+    item: NavbarItemType;
+}
+
+export function NavbarItem({ item }: NavbarItemProps) {
+    return (
+        <Button asChild variant="nav" hover={"ghost"}>
+            <Link href={item.href}>{item.name}</Link>
+        </Button>
+    );
+}
