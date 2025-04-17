@@ -7,22 +7,22 @@ import localFont from "next/font/local";
 import { Toaster } from "@components/ui/sonner";
 
 const mpRegular = localFont({
-    src: "../styles/fonts/MP-Regular.woff2",
+    src: "../../styles/fonts/MP-Regular.woff2",
     variable: "--font-mp-regular",
 });
 
 const mpMedium = localFont({
-    src: "../styles/fonts/MP-Medium.woff2",
+    src: "../../styles/fonts/MP-Medium.woff2",
     variable: "--font-mp-medium",
 });
 
 const mpBold = localFont({
-    src: "../styles/fonts/MP-Bold.woff2",
+    src: "../../styles/fonts/MP-Bold.woff2",
     variable: "--font-mp-bold",
 });
 
 const mpBlack = localFont({
-    src: "../styles/fonts/MP-Black.woff2",
+    src: "../../styles/fonts/MP-Black.woff2",
     variable: "--font-mp-black",
 });
 
@@ -44,13 +44,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`
-                ${dmSans.variable} 
-                ${mpRegular.variable}
-                ${mpMedium.variable}
-                ${mpBold.variable}
-                ${mpBlack.variable}
-                antialiased`}
+                className={` ${dmSans.variable} ${mpRegular.variable} ${mpMedium.variable} ${mpBold.variable} ${mpBlack.variable} antialiased`}
             >
                 {children}
                 <Toaster />
