@@ -8,7 +8,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "db:fresh": "payload migrate:fresh"
+        "db:fresh": "payload migrate:fresh",
+        "db:seed:categories": "bun run src/scripts/seed-categories.ts"
     },
     "dependencies": {
         "@payloadcms/db-mongodb": "^3.35.1",
