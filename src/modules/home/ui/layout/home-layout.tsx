@@ -21,6 +21,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
         },
         depth: 1,
         pagination: false,
+        sort: "name",
     });
 
     const formattedData: FormattedCategories = data.docs.map((doc) => ({

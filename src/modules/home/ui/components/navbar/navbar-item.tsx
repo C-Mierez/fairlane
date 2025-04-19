@@ -10,7 +10,7 @@ interface NavbarItemProps {
 
 export function NavbarItem({ item }: NavbarItemProps) {
     return (
-        <Button asChild variant="nav" hover={"ghost"}>
+        <Button asChild variant="nav" hover={"ghost"} font_size={"lg"}>
             <Link href={item.href}>{item.name}</Link>
         </Button>
     );

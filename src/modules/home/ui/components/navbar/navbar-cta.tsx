@@ -12,7 +12,7 @@ interface NavbarCTAProps {
 
 export function NavbarCTA({ item, isAlt, className }: NavbarCTAProps) {
     return (
-        <Button asChild variant={isAlt ? "primaryAlt" : "primary"} hover={"none"} size={"expanded"}>
+        <Button asChild variant={isAlt ? "primaryAlt" : "primary"} hover={"none"} size={"expanded"} font_size={"lg"}>
             <Link href={item.href} className={className ? className : "border-l-neo"}>
                 {item.name}
             </Link>

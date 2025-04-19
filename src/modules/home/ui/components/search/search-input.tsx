@@ -9,7 +9,7 @@ interface SearchFiltersProps {}
 
 export default function SearchInput(props: ComponentProps<typeof Input> & SearchFiltersProps) {
     return (
-        <div className="flex w-full items-stretch justify-between gap-4">
+        <div className="flex w-full items-stretch justify-between gap-4 px-4 pt-4 pb-3 md:px-8">
             <div className="rounded-base flex w-full items-stretch justify-between focus-within:ring-1 focus-within:ring-black focus-within:ring-offset-3 focus-within:outline-hidden">
                 <span className="neo-container !border-r-none bg-background grid aspect-square size-10 place-items-center !rounded-r-none">
                     <SearchIcon className="size-4" />

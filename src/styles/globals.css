@@ -8,6 +8,7 @@
 
     /* --------------------------------- Colors --------------------------------- */
     --color-neutral-950: #0d0d0d;
+    --color-neutral-600: #858585;
     --color-neutral-100: #f4f4f0;
     --color-neutral-50: #ffffff;
 
@@ -62,7 +63,7 @@
     --color-accent-foreground: var(--color-neutral-50);
     --color-accent: var(--color-accent-500);
 
-    --color-muted-foreground: var(--color-neutral-950);
+    --color-muted-foreground: var(--color-neutral-600);
     --color-muted: var(--color-neutral-100);
 
     --color-secondary-foreground: var(--color-neutral-50);

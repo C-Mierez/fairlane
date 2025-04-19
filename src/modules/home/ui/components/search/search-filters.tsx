@@ -9,7 +9,7 @@ interface SearchFiltersProps {
 export default function SearchFilters({ data }: SearchFiltersProps) {
     return (
         <section>
-            <div className="border-b-neo grid w-full place-items-center gap-6 px-8 py-4">
+            <div className="border-b-neo grid w-full">
                 <SearchInput />
                 <SearchCategories data={data} />
             </div>
