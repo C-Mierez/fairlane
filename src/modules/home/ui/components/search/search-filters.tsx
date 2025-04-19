@@ -1,12 +1,9 @@
-import { PaginatedDocs } from "payload";
-
-import { Category } from "@/payload-types";
-
-import SearchInput from "./search-input";
+import { FormattedCategories } from "../../layout/home-layout";
 import SearchCategories from "./search-categories";
+import SearchInput from "./search-input";
 
 interface SearchFiltersProps {
-    data: PaginatedDocs<Category>;
+    data: FormattedCategories;
 }
 
 export default function SearchFilters({ data }: SearchFiltersProps) {

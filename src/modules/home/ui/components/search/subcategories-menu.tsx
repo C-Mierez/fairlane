@@ -2,9 +2,10 @@ import { Category } from "@/payload-types";
 import { DropdownPosition } from "@hooks/use-dropdown";
 import { cn } from "@lib/utils";
 import { useMemo } from "react";
+import { FormattedCategories } from "../../layout/home-layout";
 
 interface Props {
-    category: Category;
+    category: FormattedCategories[number];
     isOpen: boolean;
     position: DropdownPosition;
 }

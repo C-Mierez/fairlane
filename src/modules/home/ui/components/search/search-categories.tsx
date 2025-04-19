@@ -1,15 +1,14 @@
-import { Category } from "@/payload-types";
-import { PaginatedDocs } from "payload";
+import { FormattedCategories } from "../../layout/home-layout";
 import SearchCategoriesDropdown from "./search-categories-dropdown";
 
 interface SearchCategoriesProps {
-    data: PaginatedDocs<Category>;
+    data: FormattedCategories;
 }
 
 export default function SearchCategories({ data }: SearchCategoriesProps) {
     return (
         <div className="flex gap-4">
-            {data.docs.map((category) => (
+            {data.map((category) => (
                 <div key={category.id}>
                     <SearchCategoriesDropdown category={category} isActive={false} isNavigationHovered={false} />
                 </div>

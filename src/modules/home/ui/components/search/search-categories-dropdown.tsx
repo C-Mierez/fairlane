@@ -2,15 +2,15 @@
 
 import { useRef, useState } from "react";
 
-import { Category } from "@/payload-types";
 import { Button } from "@components/ui/button";
 import useDropdown from "@hooks/use-dropdown";
 import { cn } from "@lib/utils";
 
+import { FormattedCategories } from "../../layout/home-layout";
 import SubcategoriesMenu from "./subcategories-menu";
 
 interface Props {
-    category: Category;
+    category: FormattedCategories[number];
     isActive: boolean;
     isNavigationHovered: boolean;
 }
