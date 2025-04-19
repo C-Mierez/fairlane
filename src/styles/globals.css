@@ -13,6 +13,8 @@
 
     --color-primary-500: #23a094;
 
+    --color-secondary-500: #b13e63;
+
     --color-accent-500: #9458ad;
 
     /* --------------------------------- General -------------------------------- */
@@ -63,8 +65,8 @@
     --color-muted-foreground: var(--color-neutral-950);
     --color-muted: var(--color-neutral-100);
 
-    --color-secondary-foreground: var(--color-neutral-950);
-    --color-secondary: var(--color-neutral-100);
+    --color-secondary-foreground: var(--color-neutral-50);
+    --color-secondary: var(--color-secondary-500);
 
     --color-primary-foreground: var(--color-neutral-50);
     --color-primary: var(--color-primary-500);
@@ -142,11 +144,11 @@
 
 @layer utilities {
     .neo-container {
-        @apply border-neo border-foreground rounded-base shadow-none;
+        @apply border-neo border-foreground rounded-base;
     }
 
     .neo-container-reverse {
-        @apply border-neo border-foreground shadow-neo rounded-base;
+        @apply border-neo border-foreground shadow-neo rounded-base -translate-x-neoX -translate-y-neoY;
     }
 
     .neo-hover {
@@ -158,6 +160,6 @@
     }
 
     .neo-hover-reverse {
-        @apply hover:translate-x-neoX hover:translate-y-neoY transition-[box-shadow,translate] duration-200 hover:shadow-none;
+        @apply transition-[box-shadow,translate] duration-200 hover:translate-x-0 hover:translate-y-0 hover:shadow-none;
     }
 }
