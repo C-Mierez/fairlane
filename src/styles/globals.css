@@ -153,6 +153,10 @@
         @apply hover:-translate-x-neoX hover:-translate-y-neoY hover:shadow-neo transition-[box-shadow,translate] duration-200;
     }
 
+    .neo-hover-forced {
+        @apply -translate-x-neoX -translate-y-neoY shadow-neo transition-[box-shadow,translate] duration-200;
+    }
+
     .neo-hover-reverse {
         @apply hover:translate-x-neoX hover:translate-y-neoY transition-[box-shadow,translate] duration-200 hover:shadow-none;
     }

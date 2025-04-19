@@ -47,7 +47,7 @@ export default function SearchCategoriesDropdown({
     return (
         <div ref={dropdownRef} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} className="relative">
             <span className="relative">
-                <Button>{category.name}</Button>
+                <Button keepHovered={isOpen}>{category.name}</Button>
 
                 {/* // Small triangle decorator that connects the button to the dropdown */}
                 <div

@@ -37,20 +37,31 @@ const buttonVariants = cva(
     },
 );
 
+interface Props {
+    keepHovered?: boolean;
+}
+
 function Button({
     className,
     variant,
     size,
     hover,
+    keepHovered = false,
     asChild = false,
     ...props
 }: React.ComponentProps<"button"> &
     VariantProps<typeof buttonVariants> & {
         asChild?: boolean;
-    }) {
+    } & Props) {
     const Comp = asChild ? Slot : "button";
 
-    return <Comp data-slot="button" className={cn(buttonVariants({ variant, size, hover, className }))} {...props} />;
+    return (
+        <Comp
+            data-slot="button"
+            className={cn(buttonVariants({ variant, size, hover, className }), keepHovered && "neo-hover-forced")}
+            {...props}
+        />
+    );
 }
 
 export { Button, buttonVariants };

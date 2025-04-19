@@ -53,7 +53,7 @@ export default function SubcategoriesMenu({ category, isOpen, position }: Props)
                     className={cn("text-foreground neo-container-reverse flex w-60 flex-col gap-2 p-4", categoryColor)}
                 >
                     {category.children.map((child: Category) => {
-                        return <span>{child.name}</span>;
+                        return <span key={child.id}>{child.name}</span>;
                     })}
                 </div>
             </>
