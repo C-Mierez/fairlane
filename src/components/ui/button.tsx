@@ -6,22 +6,37 @@ import { cn } from "@lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 
 const buttonVariants = cva(
-    "flex items-center justify-center whitespace-nowrap font-base transition-colors ring-offset-white gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "flex items-center justify-center border-foreground whitespace-nowrap font-base transition-colors duration-100 ring-offset-white gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
-                default: "text-foreground bg-background",
-                activePrimary: "text-primary-foreground bg-primary",
-                nav: "bg-background text-foreground",
-                primary: "bg-background text-foreground hover:bg-primary hover:text-primary-foreground",
-                primaryAlt: "bg-foreground text-background hover:bg-primary hover:text-primary-foreground",
-                background: "text-foreground bg-transparent hover:bg-background hover:text-foreground",
+                default: "bg-background text-foreground",
+                primary: "bg-primary text-primary-foreground",
+                inverted: "bg-foreground text-background !border-background",
+                transparent: "bg-transparent text-foreground",
+            },
+            shadow: {
+                none: "shadow-none",
+                neo: "neo-shadow",
+            },
+            rise: {
+                none: "",
+                neo: "neo-hover",
+                reverse: "neo-hover-reverse",
             },
             hover: {
-                default: "neo-container neo-hover",
-                reverse: "neo-container-reverse neo-hover-reverse",
                 none: "",
-                ghost: "neo-container duration-200 !border-transparent hover:!border-foreground",
+                to_primary: "hover:bg-primary hover:text-primary-foreground",
+                to_background: "hover:bg-background hover:text-foreground",
+                ghost: "!border-transparent hover:!border-foreground",
+            },
+            radius: {
+                default: "rounded-base",
+                none: "rounded-none",
+            },
+            border: {
+                none: "border-0",
+                neo: "border-neo",
             },
             size: {
                 default: "h-10 px-4 py-2",
@@ -38,39 +53,39 @@ const buttonVariants = cva(
         },
         defaultVariants: {
             variant: "default",
-            hover: "default",
+            shadow: "none",
+            rise: "neo",
+            hover: "none",
+            radius: "default",
+            border: "neo",
             size: "default",
             font_size: "default",
         },
     },
 );
 
-interface Props {
-    keepHovered?: boolean;
-}
-
 function Button({
     className,
     variant,
+    shadow,
+    rise,
+    hover,
+    radius,
+    border,
     size,
     font_size,
-    hover,
-    keepHovered = false,
     asChild = false,
     ...props
 }: React.ComponentProps<"button"> &
     VariantProps<typeof buttonVariants> & {
         asChild?: boolean;
-    } & Props) {
+    }) {
     const Comp = asChild ? Slot : "button";
 
     return (
         <Comp
             data-slot="button"
-            className={cn(
-                buttonVariants({ variant, size, font_size, hover, className }),
-                keepHovered && "neo-hover-forced",
-            )}
+            className={cn(buttonVariants({ variant, shadow, rise, hover, radius, border, size, font_size, className }))}
             {...props}
         />
     );

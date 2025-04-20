@@ -44,8 +44,12 @@ export default function SubcategoriesMenu({ category, isOpen, position }: Props)
                             <Button
                                 key={child.id}
                                 size={"expanded"}
-                                variant={"background"}
-                                hover={"none"}
+                                variant={"transparent"}
+                                shadow={"none"}
+                                rise={"none"}
+                                border={"none"}
+                                radius={"none"}
+                                hover={"to_background"}
                                 className={cn("border-b-neo justify-start py-4", categoryTextColor)}
                                 asChild
                             >

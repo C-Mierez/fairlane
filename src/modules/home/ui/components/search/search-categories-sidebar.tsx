@@ -57,50 +57,48 @@ function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
                 <SheetHeader className="border-b-neo">
                     <SheetTitle className="font-brand font-base">All Categories</SheetTitle>
                 </SheetHeader>
-                <ScrollArea className="flex flex-col gap-2">
-                    <div>
-                        {extendedData.map((category) => (
-                            <div
-                                key={category.id}
-                                className={activeCategory?.id === category.id ? "bg-background-alt" : ""}
-                            >
-                                {/* Expandable button if children exist, otherwise link to category */}
-                                {category.children && category.children.length > 0 ? (
-                                    <SidebarButton
-                                        category={category}
-                                        isLeaf={false}
-                                        onClick={() => handleCategoryClick(category)}
-                                        isActive={activeCategory?.id === category.id}
-                                    />
-                                ) : (
-                                    <SidebarButton
-                                        category={category}
-                                        isLeaf={true}
-                                        isActive={activeCategory?.id === category.id}
-                                    />
-                                )}
+                <ScrollArea>
+                    {extendedData.map((category) => (
+                        <div
+                            key={category.id}
+                            className={activeCategory?.id === category.id ? "bg-background-alt" : ""}
+                        >
+                            {/* Expandable button if children exist, otherwise link to category */}
+                            {category.children && category.children.length > 0 ? (
+                                <SidebarButton
+                                    category={category}
+                                    isLeaf={false}
+                                    onClick={() => handleCategoryClick(category)}
+                                    isActive={activeCategory?.id === category.id}
+                                />
+                            ) : (
+                                <SidebarButton
+                                    category={category}
+                                    isLeaf={true}
+                                    isActive={activeCategory?.id === category.id}
+                                />
+                            )}
 
-                                {category.children &&
-                                    category.children.length > 0 &&
-                                    activeCategory?.id === category.id && (
-                                        <div>
-                                            {activeCategory.children.map((child) => (
-                                                <SidebarButton
-                                                    key={child.id}
-                                                    parent={category}
-                                                    category={child}
-                                                    isLeaf={true}
-                                                    onClick={() => {
-                                                        onOpenChange(false);
-                                                    }}
-                                                    isActive={activeCategory?.id === child.id}
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                            </div>
-                        ))}
-                    </div>
+                            {category.children &&
+                                category.children.length > 0 &&
+                                activeCategory?.id === category.id && (
+                                    <div>
+                                        {activeCategory.children.map((child) => (
+                                            <SidebarButton
+                                                key={child.id}
+                                                parent={category}
+                                                category={child}
+                                                isLeaf={true}
+                                                onClick={() => {
+                                                    onOpenChange(false);
+                                                }}
+                                                isActive={activeCategory?.id === child.id}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                        </div>
+                    ))}
                 </ScrollArea>
             </SheetContent>
         </Sheet>
@@ -137,8 +135,11 @@ function SidebarButton({
             key={category.id}
             onClick={onClick}
             size={"expanded"}
-            variant={"background"}
+            variant={"transparent"}
+            radius={"none"}
+            border={"none"}
             hover={"none"}
+            rise={"none"}
             className={cn(
                 "justify-between py-4",
                 categoryColorHover,

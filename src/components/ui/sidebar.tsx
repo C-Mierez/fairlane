@@ -250,7 +250,6 @@ function SidebarTrigger({ className, onClick, ...props }: ComponentProps<typeof 
             data-sidebar="trigger"
             data-slot="sidebar-trigger"
             variant="default"
-            hover={"reverse"}
             size="icon"
             className={cn("size-8", className)}
             onClick={(event) => {

@@ -144,6 +144,11 @@
 }
 
 @layer utilities {
+    /* --------------------------------- Shadow --------------------------------- */
+    .neo-shadow {
+        @apply shadow-neo -translate-x-neoX -translate-y-neoY;
+    }
+
     .neo-container {
         @apply border-neo border-foreground rounded-base;
     }

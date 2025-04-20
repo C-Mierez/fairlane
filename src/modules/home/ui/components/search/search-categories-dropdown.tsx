@@ -48,12 +48,7 @@ export default function SearchCategoriesDropdown({
 
     if (isScaffold) {
         return (
-            <Button
-                type="button"
-                aria-hidden
-                hover={isActive ? "reverse" : "default"}
-                variant={isActive ? "activePrimary" : "default"}
-            >
+            <Button type="button" aria-hidden variant={isActive ? "primary" : "default"}>
                 {category.name}
             </Button>
         );
@@ -62,12 +57,7 @@ export default function SearchCategoriesDropdown({
     return (
         <div ref={dropdownRef} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} className="relative">
             <span className="relative">
-                <Button
-                    keepHovered={isOpen}
-                    hover={isActive ? "reverse" : "default"}
-                    variant={isActive ? "activePrimary" : "default"}
-                    asChild
-                >
+                <Button variant={isActive ? "inverted" : "default"} shadow={isOpen ? "neo" : "none"} asChild>
                     <Link href={buildCategoryUrl(category.slug)}>{category.name}</Link>
                 </Button>
 

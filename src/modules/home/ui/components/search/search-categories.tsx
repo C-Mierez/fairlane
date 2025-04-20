@@ -97,12 +97,7 @@ interface ShowAllButtonProps {
 function ShowAllButton({ isActiveCategoryHidden, onClick }: ShowAllButtonProps) {
     // TODO Give a visual clue when current active category is not visible
     return (
-        <Button
-            type="button"
-            hover={isActiveCategoryHidden ? "reverse" : "default"}
-            variant={isActiveCategoryHidden ? "activePrimary" : "default"}
-            onClick={onClick}
-        >
+        <Button type="button" variant={isActiveCategoryHidden ? "inverted" : "default"} onClick={onClick}>
             <span>Show All</span>
             <ListFilterIcon />
         </Button>

@@ -4,13 +4,13 @@ import { Button } from "@components/ui/button";
 
 import type { NavbarItemType } from "./content";
 
-interface NavbarItemProps {
+interface Props {
     item: NavbarItemType;
 }
 
-export function NavbarItem({ item }: NavbarItemProps) {
+export function NavbarItem({ item }: Props) {
     return (
-        <Button asChild variant="nav" hover={"ghost"} font_size={"lg"}>
+        <Button hover={"ghost"} font_size={"lg"} asChild>
             <Link href={item.href}>{item.name}</Link>
         </Button>
     );
