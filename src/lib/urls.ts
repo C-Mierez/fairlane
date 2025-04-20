@@ -1,4 +1,4 @@
-import { ALL_SLUG } from "@modules/home/ui/components/search/search-categories";
+import { ALL_SLUG } from "@modules/home/ui/components/search/constants";
 
 export function buildSubcategoryUrl(parentSlug: string, categorySlug: string) {
     if (categorySlug === ALL_SLUG) {

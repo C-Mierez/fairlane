@@ -3,16 +3,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useIsMobile } from "@hooks/use-is-mobile";
 import type { RootCategory } from "@modules/categories/types";
 
-import { ALL_SLUG, AllCategory, ITEM_GAP_WIDTH } from "./search-categories";
+import { ALL_SLUG, ITEM_GAP_WIDTH } from "./constants";
+import { extendRootCategories } from "./utils";
 
-export function useSearchCategories(data: RootCategory[]) {
+export function useSearchCategories(categories: RootCategory[]) {
     const isMobile = useIsMobile("mobile");
 
     const containerRef = useRef<HTMLDivElement>(null);
     const measureRef = useRef<HTMLDivElement>(null);
     const showAllRef = useRef<HTMLDivElement>(null);
 
-    const extendedData = useMemo(() => [AllCategory, ...data], [data]);
+    const extendedData = useMemo(() => extendRootCategories(categories), [categories]);
 
     const [isReady, setIsReady] = useState(false); // Hide the component until the width is calculated
     const [visibleCount, setVisibleCount] = useState(extendedData.length);
@@ -64,7 +65,7 @@ export function useSearchCategories(data: RootCategory[]) {
         return () => {
             resizeObserver.disconnect();
         };
-    }, [data.length, isMobile]);
+    }, [categories.length, isMobile]);
 
     return {
         containerRef,

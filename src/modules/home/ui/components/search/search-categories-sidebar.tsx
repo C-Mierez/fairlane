@@ -15,7 +15,7 @@ import { cn, getCategoryColor } from "@lib/utils";
 import type { ChildCategory, RootCategory } from "@modules/categories/types";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { AllCategory } from "./search-categories";
+import { extendAllCategories } from "./utils";
 
 interface Props {
     isOpen: boolean;
@@ -38,17 +38,7 @@ function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
     } = useSuspenseQuery(trpc.categories.getAll.queryOptions());
 
     // Adds the "All" category to the list of children categories if they exist
-    const extendedData: RootCategory[] = useMemo(
-        () =>
-            categories.map((cat) => ({
-                ...cat,
-                children:
-                    cat.children && cat.children.length > 0
-                        ? [{ ...AllCategory, children: undefined }, ...cat.children]
-                        : [],
-            })),
-        [categories],
-    );
+    const extendedData = useMemo(() => extendAllCategories(categories), [categories]);
 
     const [activeCategory, setActiveCategory] = useState<RootCategory | null>(null);
 
@@ -65,7 +55,7 @@ function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
         <Sheet open={isOpen} onOpenChange={onOpenChange}>
             <SheetContent side="left" className="rounded-r-base shadow-neo gap-0">
                 <SheetHeader className="border-b-neo">
-                    <SheetTitle>All Categories</SheetTitle>
+                    <SheetTitle className="font-brand font-base">All Categories</SheetTitle>
                 </SheetHeader>
                 <ScrollArea className="flex flex-col gap-2">
                     <div>

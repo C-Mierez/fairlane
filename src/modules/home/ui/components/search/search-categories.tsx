@@ -6,26 +6,11 @@ import { useTRPC } from "@/trpc/client";
 import { Button } from "@components/ui/button";
 import SuspenseWithError from "@components/utils/suspended";
 import { cn } from "@lib/utils";
-import type { RootCategory } from "@modules/categories/types";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import SearchCategoriesDropdown from "./search-categories-dropdown";
 import SearchCategoriesSidebar from "./search-categories-sidebar";
 import { useSearchCategories } from "./use-search-categories";
-
-export const ITEM_GAP_WIDTH = 16; // 16px gap between items
-
-export const ALL_SLUG = "all";
-
-export const AllCategory: RootCategory = {
-    id: ALL_SLUG,
-    name: "All",
-    slug: ALL_SLUG,
-    color: "accent",
-    children: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-};
 
 export default function SearchCategories() {
     return (
