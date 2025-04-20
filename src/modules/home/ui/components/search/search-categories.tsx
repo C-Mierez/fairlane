@@ -29,7 +29,7 @@ export const AllCategory: RootCategory = {
 
 export default function SearchCategories() {
     return (
-        <SuspenseWithError>
+        <SuspenseWithError fallback={<SearchCategoriesSkeleton />}>
             <SearchCategoriesSuspense />
         </SuspenseWithError>
     );
@@ -122,4 +122,8 @@ function ShowAllButton({ isActiveCategoryHidden, onClick }: ShowAllButtonProps) 
             <ListFilterIcon />
         </Button>
     );
+}
+
+function SearchCategoriesSkeleton() {
+    return <div className="pointer-events-none h-17 pt-3 pb-4" />;
 }
