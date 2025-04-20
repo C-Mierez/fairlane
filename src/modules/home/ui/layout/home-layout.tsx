@@ -8,12 +8,12 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
     prefetch(trpc.categories.getAll.queryOptions());
 
     return (
-        <HydrateClient>
-            <SidebarProvider>
-                <HomeNavbar />
+        <SidebarProvider>
+            <HomeNavbar />
+            <HydrateClient>
                 <SearchFilters />
                 {children}
-            </SidebarProvider>
-        </HydrateClient>
+            </HydrateClient>
+        </SidebarProvider>
     );
 }
