@@ -2,25 +2,23 @@ import { useMemo } from "react";
 
 import Link from "next/link";
 
-import { Category } from "@/payload-types";
+import type { Category } from "@/payload-types";
 import { Button } from "@components/ui/button";
-import { DropdownPosition } from "@hooks/use-dropdown";
+import type { DropdownPosition } from "@hooks/use-dropdown";
 import { buildSubcategoryUrl } from "@lib/urls";
 import { cn, getCategoryColor } from "@lib/utils";
-
-import { FormattedCategories } from "../../layout/home-layout";
+import type { RootCategory } from "@modules/categories/types";
 
 interface Props {
-    category: FormattedCategories[number];
+    category: RootCategory;
     isOpen: boolean;
     position: DropdownPosition;
 }
 
 export default function SubcategoriesMenu({ category, isOpen, position }: Props) {
-    // TODO Fix this when proper typing is in place
-    if (!isOpen || !category.children || category.children.length === 0) return null;
+    const { categoryColor, categoryTextColor } = useMemo(() => getCategoryColor(category), [category]);
 
-    const { categoryColor, categoryTextColor } = useMemo(getCategoryColor(category), [category]);
+    if (!isOpen || !category.children || category.children.length === 0) return null;
 
     return (
         <div

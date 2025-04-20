@@ -1,6 +1,7 @@
 import { getPayload } from "payload";
 
 import payloadConfig from "@payload-config";
+import type { Category } from "@/payload-types";
 
 const CATEGORIES = [
     {
@@ -145,7 +146,7 @@ async function seedCategories() {
             data: {
                 name: category.name,
                 slug: category.slug,
-                color: category.color ?? ("primary" as any),
+                color: (category.color as Category["color"]) ?? "primary",
                 childOf: null,
             },
         });

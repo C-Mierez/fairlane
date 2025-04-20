@@ -1,17 +1,10 @@
 "use client";
 
-import {
-    ComponentProps,
-    createContext,
-    CSSProperties,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+import type { ComponentProps, CSSProperties } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { cva, VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { MenuIcon } from "lucide-react";
 
 import { Button } from "@components/ui/button";

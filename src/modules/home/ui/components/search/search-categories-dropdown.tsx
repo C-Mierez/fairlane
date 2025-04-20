@@ -8,12 +8,12 @@ import { Button } from "@components/ui/button";
 import useDropdown from "@hooks/use-dropdown";
 import { buildCategoryUrl } from "@lib/urls";
 import { cn } from "@lib/utils";
+import type { RootCategory } from "@modules/categories/types";
 
-import { FormattedCategories } from "../../layout/home-layout";
 import SubcategoriesMenu from "./subcategories-menu";
 
 interface Props {
-    category: FormattedCategories[number];
+    category: RootCategory;
     isActive: boolean;
     isScaffold?: boolean;
 }
@@ -25,19 +25,6 @@ export default function SearchCategoriesDropdown({
 }: Props & {
     children?: React.ReactNode;
 }) {
-    if (isScaffold) {
-        return (
-            <Button
-                type="button"
-                aria-hidden
-                hover={isActive ? "reverse" : "default"}
-                variant={isActive ? "activePrimary" : "default"}
-            >
-                {category.name}
-            </Button>
-        );
-    }
-
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +32,6 @@ export default function SearchCategoriesDropdown({
 
     const dropdownPosition = getDropdownPosition();
 
-    // TODO Fix this when proper typing is in place
     const hasChildren = !!category.children && category.children.length > 0;
 
     const onPointerEnter = () => {
@@ -59,6 +45,19 @@ export default function SearchCategoriesDropdown({
             setIsOpen(false);
         }
     };
+
+    if (isScaffold) {
+        return (
+            <Button
+                type="button"
+                aria-hidden
+                hover={isActive ? "reverse" : "default"}
+                variant={isActive ? "activePrimary" : "default"}
+            >
+                {category.name}
+            </Button>
+        );
+    }
 
     return (
         <div ref={dropdownRef} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} className="relative">

@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FormattedCategories } from "../../layout/home-layout";
-import { ALL_SLUG, AllCategory, ITEM_GAP_WIDTH } from "./search-categories";
-import { useIsMobile } from "@hooks/use-is-mobile";
 
-export function useSearchCategories(data: FormattedCategories) {
+import { useIsMobile } from "@hooks/use-is-mobile";
+import type { RootCategory } from "@modules/categories/types";
+
+import { ALL_SLUG, AllCategory, ITEM_GAP_WIDTH } from "./search-categories";
+
+export function useSearchCategories(data: RootCategory[]) {
     const isMobile = useIsMobile("mobile");
 
     const containerRef = useRef<HTMLDivElement>(null);

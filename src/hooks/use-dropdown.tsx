@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import type { RefObject } from "react";
 
 const DEFAULT_WIDTH = 240; // 15rem === w-60
 

@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 import { relationship } from "payload/shared";
 
 export const Categories: CollectionConfig = {

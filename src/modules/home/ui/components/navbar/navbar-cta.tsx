@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@components/ui/button";
 
-import { NavbarCTAType } from "./content";
+import type { NavbarCTAType } from "./content";
 
 interface NavbarCTAProps {
     item: NavbarCTAType;

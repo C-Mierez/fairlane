@@ -5,39 +5,54 @@ import { useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
+import { useTRPC } from "@/trpc/client";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@components/ui/sheet";
+import SuspenseWithError from "@components/utils/suspended";
 import { buildCategoryUrl, buildSubcategoryUrl } from "@lib/urls";
 import { cn, getCategoryColor } from "@lib/utils";
+import type { ChildCategory, RootCategory } from "@modules/categories/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { FormattedCategories } from "../../layout/home-layout";
 import { AllCategory } from "./search-categories";
 
 interface Props {
     isOpen: boolean;
     onOpenChange: (isOpen: boolean) => void;
-    data: FormattedCategories; // TODO Change this to be fetched independently
 }
 
-export default function SearchCategoriesSidebar({ isOpen, onOpenChange, data }: Props) {
-    const extendedData = useMemo(
+export default function SearchCategoriesSidebar(props: Props) {
+    return (
+        <SuspenseWithError>
+            <SearchCategoriesSidebarSuspense {...props} />
+        </SuspenseWithError>
+    );
+}
+
+function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
+    const trpc = useTRPC();
+
+    const {
+        data: { categories },
+    } = useSuspenseQuery(trpc.categories.getAll.queryOptions());
+
+    // Adds the "All" category to the list of children categories if they exist
+    const extendedData: RootCategory[] = useMemo(
         () =>
-            data.map((cat) => {
-                return {
-                    ...cat,
-                    children:
-                        cat.children && cat.children.length > 0
-                            ? [{ ...AllCategory, children: undefined }, ...cat.children]
-                            : [],
-                };
-            }),
-        [data],
+            categories.map((cat) => ({
+                ...cat,
+                children:
+                    cat.children && cat.children.length > 0
+                        ? [{ ...AllCategory, children: undefined }, ...cat.children]
+                        : [],
+            })),
+        [categories],
     );
 
-    const [activeCategory, setActiveCategory] = useState<FormattedCategories[number] | null>(null);
+    const [activeCategory, setActiveCategory] = useState<RootCategory | null>(null);
 
-    const handleCategoryClick = (category: FormattedCategories[number]) => {
+    const handleCategoryClick = (category: RootCategory) => {
         setActiveCategory((prev) => {
             if (prev?.id === category.id) {
                 return null; // Collapse the category if it's already open
@@ -109,16 +124,15 @@ function SidebarButton({
     onClick,
     isActive,
 }: {
-    category: FormattedCategories[number] | FormattedCategories[number]["children"][number];
-    parent?: FormattedCategories[number];
+    category: RootCategory | ChildCategory;
+    parent?: RootCategory;
     isLeaf: boolean;
     onClick?: () => void;
     isActive?: boolean;
 }) {
-    // TODO Fix types
     const { categoryColorHover, categoryTextColorHover, categoryColor, categoryTextColor } = useMemo(
-        getCategoryColor(parent ?? (category as any)),
-        [category],
+        () => getCategoryColor(parent ?? category),
+        [parent, category],
     );
 
     const content = (

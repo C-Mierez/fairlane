@@ -4,11 +4,14 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { initTRPC } from "@trpc/server";
+import { getPayload } from "@lib/server/payload";
 
 export const createTRPCContext = cache(async () => {
-    // Add the Auth data to the context
+    // Add payload instance to context
+    const payload = await getPayload();
+
     return {
-        auth: "test",
+        payload,
     };
 });
 

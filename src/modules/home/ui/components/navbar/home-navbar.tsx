@@ -1,10 +1,9 @@
-import Link from "next/link";
+import BrandLogo from "@components/brand-logo";
 
 import { ctaItems, navbarItems } from "./content";
 import { NavbarCTA } from "./navbar-cta";
 import { NavbarItem } from "./navbar-item";
 import NavbarMenu from "./navbar-menu";
-import BrandLogo from "@components/brand-logo";
 
 export default function HomeNavbar() {
     return (

@@ -8,6 +8,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "lint:fix": "next lint --fix",
         "db:fresh": "payload migrate:fresh",
         "db:seed:categories": "bun run src/scripts/seed-categories.ts"
     },
@@ -34,6 +35,7 @@
         "payload": "^3.35.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
+        "react-error-boundary": "^5.0.0",
         "server-only": "^0.0.1",
         "sonner": "^2.0.3",
         "superjson": "^2.2.2",

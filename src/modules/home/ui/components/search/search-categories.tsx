@@ -2,23 +2,22 @@
 
 import { ListFilterIcon } from "lucide-react";
 
+import { useTRPC } from "@/trpc/client";
 import { Button } from "@components/ui/button";
+import SuspenseWithError from "@components/utils/suspended";
 import { cn } from "@lib/utils";
+import type { RootCategory } from "@modules/categories/types";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { FormattedCategories } from "../../layout/home-layout";
 import SearchCategoriesDropdown from "./search-categories-dropdown";
 import SearchCategoriesSidebar from "./search-categories-sidebar";
 import { useSearchCategories } from "./use-search-categories";
-
-interface SearchCategoriesProps {
-    data: FormattedCategories;
-}
 
 export const ITEM_GAP_WIDTH = 16; // 16px gap between items
 
 export const ALL_SLUG = "all";
 
-export const AllCategory: FormattedCategories[number] = {
+export const AllCategory: RootCategory = {
     id: ALL_SLUG,
     name: "All",
     slug: ALL_SLUG,
@@ -28,8 +27,20 @@ export const AllCategory: FormattedCategories[number] = {
     updatedAt: new Date().toISOString(),
 };
 
-export default function SearchCategories({ data }: SearchCategoriesProps) {
+export default function SearchCategories() {
+    return (
+        <SuspenseWithError>
+            <SearchCategoriesSuspense />
+        </SuspenseWithError>
+    );
+}
+
+function SearchCategoriesSuspense() {
     // TODO On mobile, only show the Show All button and the currently active category
+
+    const trpc = useTRPC();
+
+    const { data } = useSuspenseQuery(trpc.categories.getAll.queryOptions());
 
     const {
         extendedData,
@@ -42,14 +53,13 @@ export default function SearchCategories({ data }: SearchCategoriesProps) {
         isSidebarOpen,
         setIsSidebarOpen,
         activeCategorySlug,
-        setActiveCategory,
         isActiveCategoryHidden,
-    } = useSearchCategories(data);
+    } = useSearchCategories(data.categories);
 
     return (
         <div className={cn("relative w-full overflow-hidden px-4 pt-3 pb-4 md:px-8", !isReady && "invisible")}>
             {/* All Categories Sidebar */}
-            <SearchCategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={extendedData} />
+            <SearchCategoriesSidebar isOpen={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
 
             {/* Invisible categories for measuring width */}
             <div

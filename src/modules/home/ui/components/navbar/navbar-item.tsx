@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@components/ui/button";
 
-import { NavbarItemType } from "./content";
+import type { NavbarItemType } from "./content";
 
 interface NavbarItemProps {
     item: NavbarItemType;
