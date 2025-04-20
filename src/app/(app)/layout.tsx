@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 
+import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@components/ui/sonner";
 
 const mpRegular = localFont({
@@ -46,7 +47,7 @@ export default function RootLayout({
             <body
                 className={` ${dmSans.variable} ${mpRegular.variable} ${mpMedium.variable} ${mpBold.variable} ${mpBlack.variable} antialiased`}
             >
-                {children}
+                <TRPCReactProvider>{children}</TRPCReactProvider>
                 <Toaster />
             </body>
         </html>
