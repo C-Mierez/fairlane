@@ -9,8 +9,11 @@ A Gumroad-inspired multi-tenant e-commerce website.
 - NextJS
 - React 19
 - [Payload](https://github.com/payloadcms/payload)
+- tRPC v11
+- Tanstack Query
 - MongoDB (Atlas)
-- Tailwind V4
+- Zod v4 Beta
+- Tailwind v4
 
 --- Local:
 
