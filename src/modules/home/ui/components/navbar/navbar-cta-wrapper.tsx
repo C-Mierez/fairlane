@@ -10,7 +10,7 @@ interface Props {
 
 export default function NavbarCTAWrapper(props: Props) {
     return (
-        <SuspenseWithError>
+        <SuspenseWithError fallback={<NavbarCTASkeleton />}>
             <NavbarCTAWrapperSuspense {...props} />
         </SuspenseWithError>
     );
@@ -45,6 +45,16 @@ function NavbarCTAUnAuthed() {
                     <NavbarCTA item={item} isAlt={index === 1} />
                 </li>
             ))}
+        </>
+    );
+}
+
+function NavbarCTASkeleton() {
+    return (
+        <>
+            {Array(2).map((_, i) => {
+                <li key={i}></li>;
+            })}
         </>
     );
 }
