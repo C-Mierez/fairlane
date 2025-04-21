@@ -32,14 +32,20 @@ export type NavbarCTAType = {
     href: string;
 };
 
-// TODO Add real href
 export const ctaItems: NavbarCTAType[] = [
     {
         name: "Log In",
-        href: "/login",
+        href: "/sign-in",
     },
     {
         name: "Start",
-        href: "/dashboard",
+        href: "/sign-up",
+    },
+];
+
+export const authedCtaItems: NavbarCTAType[] = [
+    {
+        name: "Dashboard",
+        href: "/admin", // TODO Add real href
     },
 ];

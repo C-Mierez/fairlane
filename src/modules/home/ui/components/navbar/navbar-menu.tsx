@@ -10,8 +10,8 @@ import {
     SidebarTrigger,
 } from "@components/ui/sidebar";
 
-import { ctaItems, navbarItems } from "./content";
-import { NavbarCTA } from "./navbar-cta";
+import { navbarItems } from "./content";
+import NavbarCTAWrapper from "./navbar-cta-wrapper";
 
 export default function NavbarMenu() {
     return (
@@ -35,14 +35,7 @@ export default function NavbarMenu() {
 
                 <SidebarFooter className="gap-0 p-0">
                     <div className="flex flex-col">
-                        {ctaItems.map((item, index) => (
-                            <NavbarCTA
-                                key={item.name}
-                                item={item}
-                                isAlt={index === 1}
-                                className="border-t-neo border-l-0"
-                            />
-                        ))}
+                        <NavbarCTAWrapper isMenu />
                     </div>
                 </SidebarFooter>
             </Sidebar>

@@ -15,3 +15,7 @@ export function buildCategoryUrl(categorySlug: string) {
         return `/${categorySlug}`;
     }
 }
+
+export function buildSubdomainUrl(username: string) {
+    return `${username.toLowerCase()}.shop.com`;
+}

@@ -5,6 +5,8 @@ import { SearchIcon, ShoppingBagIcon } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 
+import LibraryButton from "../library-button";
+
 export default function SearchInput(props: ComponentProps<typeof Input>) {
     return (
         <div className="flex w-full items-stretch justify-between gap-4 px-4 pt-4 pb-3 md:px-8">
@@ -14,6 +16,7 @@ export default function SearchInput(props: ComponentProps<typeof Input>) {
                 </span>
                 <Input {...props} className="!rounded-l-none !border-l-0" focus={"none"} />
             </div>
+            <LibraryButton />
             <Button>
                 <ShoppingBagIcon className="size-6" />
                 {/* TODO Add proper number */}

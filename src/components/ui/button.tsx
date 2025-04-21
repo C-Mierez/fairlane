@@ -14,6 +14,7 @@ const buttonVariants = cva(
                 primary: "bg-primary text-primary-foreground",
                 inverted: "bg-foreground text-background !border-background",
                 transparent: "bg-transparent text-foreground",
+                link: "bg-transparent underline",
             },
             shadow: {
                 none: "shadow-none",

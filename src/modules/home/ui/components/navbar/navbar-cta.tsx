@@ -22,7 +22,7 @@ export function NavbarCTA({ item, isAlt, className }: NavbarCTAProps) {
             rise={"none"}
             font_size={"lg"}
         >
-            <Link href={item.href} className={className ? className : isAlt ? "" : "border-x-neo"}>
+            <Link prefetch href={item.href} className={className ? className : isAlt ? "" : "border-x-neo"}>
                 {item.name}
             </Link>
         </Button>

@@ -1,7 +1,7 @@
 import BrandLogo from "@components/brand-logo";
 
-import { ctaItems, navbarItems } from "./content";
-import { NavbarCTA } from "./navbar-cta";
+import { navbarItems } from "./content";
+import NavbarCTAWrapper from "./navbar-cta-wrapper";
 import { NavbarItem } from "./navbar-item";
 import NavbarMenu from "./navbar-menu";
 
@@ -22,12 +22,7 @@ export default function HomeNavbar() {
                 </ul>
             </nav>
             <ul className="col-span-3 hidden h-full grid-cols-2 lg:grid xl:col-start-11">
-                {/* TODO Add href */}
-                {ctaItems.map((item, index) => (
-                    <li key={item.name}>
-                        <NavbarCTA item={item} isAlt={index === 1} />
-                    </li>
-                ))}
+                <NavbarCTAWrapper />
             </ul>
 
             {/* Mobile Menu */}
