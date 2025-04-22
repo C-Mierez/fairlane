@@ -10,6 +10,10 @@ import { createCallerFactory, createTRPCContext } from "./init";
 import { makeQueryClient } from "./query-client";
 import { appRouter } from "./routers/_app";
 
+/**
+ * https://tanstack.com/query/v5/docs/framework/react/guides/advanced-ssr
+ * The benefit of this is that you can call getQueryClient() to get a hold of this client anywhere that gets called from a Server Component, including utility functions. The downside is that every time you call dehydrate(getQueryClient()), you serialize the entire queryClient, including queries that have already been serialized before and are unrelated to the current Server Component which is unnecessary overhead.
+ */
 export const getQueryClient = cache(makeQueryClient);
 
 export const trpcCaller = createCallerFactory(appRouter)(createTRPCContext);

@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-import { baseProcedure, createTRPCRouter } from "../init";
 import { TRPCError } from "@trpc/server";
+
+import { baseProcedure, createTRPCRouter } from "../init";
 
 export const testRouter = createTRPCRouter({
     hello: baseProcedure
@@ -19,4 +20,10 @@ export const testRouter = createTRPCRouter({
             }
             return { res: `Hello ${input.name}` };
         }),
+    boolean: baseProcedure.input(z.object({ value: z.boolean() })).query(async ({ input }) => {
+        // Simulate a delay of 4 seconds
+        // await new Promise((resolve) => setTimeout(resolve, 4000));
+
+        return { res: input.value };
+    }),
 });

@@ -1,11 +1,11 @@
-import { cookies, headers as getHeaders } from "next/headers";
+import { headers as getHeaders } from "next/headers";
 import { z } from "zod";
 
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 
 import { LoginSchema, RegisterSchema, UsernameSchema } from "../schema";
-import { buildPayloadCookieKey, checkUsername, loginUser } from "./shared";
+import { checkUsername, loginUser } from "./shared";
 
 export const authRouter = createTRPCRouter({
     session: baseProcedure.query(async ({ ctx }) => {
@@ -45,12 +45,6 @@ export const authRouter = createTRPCRouter({
         const user = await loginUser(ctx, input);
 
         return user;
-    }),
-
-    logout: baseProcedure.mutation(async ({ ctx }) => {
-        const c = await cookies();
-
-        c.delete(buildPayloadCookieKey(ctx.payload));
     }),
 
     /* ------------------------------ Restrictions ------------------------------ */

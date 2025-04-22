@@ -1,3 +1,4 @@
+import UnAuthed from "@components/auth/unauthed";
 import AuthLayout from "@modules/auth/ui/components/layouts/auth-layout";
 
 interface Props {
@@ -5,5 +6,9 @@ interface Props {
 }
 
 export default function Layout({ children }: Props) {
-    return <AuthLayout>{children}</AuthLayout>;
+    return (
+        <UnAuthed>
+            <AuthLayout>{children}</AuthLayout>
+        </UnAuthed>
+    );
 }

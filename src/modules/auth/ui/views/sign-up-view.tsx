@@ -1,8 +1,9 @@
+import Link from "next/link";
+
 import BrandLogo from "@components/brand-logo";
 import { Button } from "@components/ui/button";
 
 import SignUpForm from "../components/sign-up/sign-up-form";
-import Link from "next/link";
 
 export default function SignUpView() {
     return (

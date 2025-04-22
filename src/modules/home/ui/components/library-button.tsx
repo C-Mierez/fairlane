@@ -3,17 +3,23 @@
 import { BookOpenTextIcon } from "lucide-react";
 import Link from "next/link";
 
-import { useTRPC } from "@/trpc/client";
 import { Button } from "@components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import SuspenseWithError from "@components/utils/suspended";
+import { useSession } from "@hooks/use-session";
 
 export default function LibraryButton() {
-    const trpc = useTRPC();
-    const session = useQuery(trpc.auth.session.queryOptions());
+    return (
+        <SuspenseWithError fallback={<LibraryButtonSkeleton />}>
+            <LibraryButtonSuspense />
+        </SuspenseWithError>
+    );
+}
 
-    const isLoggedIn = session.data && session.data.user;
+function LibraryButtonSuspense() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { session } = useSession();
 
-    if (!isLoggedIn) return null;
+    if (!session.user) return null;
 
     return (
         <Button asChild>
@@ -24,4 +30,8 @@ export default function LibraryButton() {
             </Link>
         </Button>
     );
+}
+
+function LibraryButtonSkeleton() {
+    return <div>Loading</div>;
 }
