@@ -6,13 +6,13 @@ import { cn } from "@lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 
 const buttonVariants = cva(
-    "flex items-center justify-center border-foreground whitespace-nowrap font-base transition-colors duration-100 ring-offset-white gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "flex items-center justify-center border-foreground whitespace-nowrap font-brand transition-colors duration-100 ring-offset-white gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
                 default: "bg-background text-foreground",
                 primary: "bg-primary text-primary-foreground",
-                inverted: "bg-foreground text-background !border-background",
+                inverted: "bg-foreground text-background",
                 transparent: "bg-transparent text-foreground",
                 link: "bg-transparent underline",
             },
@@ -25,19 +25,21 @@ const buttonVariants = cva(
                 neo: "neo-hover",
                 reverse: "neo-hover-reverse",
             },
+            border: {
+                none: "border-0",
+                transparent: "border-1 border-transparent",
+                neo: "border-neo",
+            },
             hover: {
                 none: "",
                 to_primary: "hover:bg-primary hover:text-primary-foreground",
                 to_background: "hover:bg-background hover:text-foreground",
-                ghost: "!border-transparent hover:!border-foreground",
+                ghost: "hover:!border-foreground",
+                ghost_inverted: "hover:!border-background",
             },
             radius: {
                 default: "rounded-base",
                 none: "rounded-none",
-            },
-            border: {
-                none: "border-0",
-                neo: "border-neo",
             },
             size: {
                 default: "h-10 px-4 py-2",
@@ -86,7 +88,7 @@ function Button({
     return (
         <Comp
             data-slot="button"
-            className={cn(buttonVariants({ variant, shadow, rise, hover, radius, border, size, font_size, className }))}
+            className={cn(buttonVariants({ variant, shadow, rise, border, hover, radius, size, font_size, className }))}
             {...props}
         />
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -16,6 +16,7 @@ import type { ChildCategory, RootCategory } from "@modules/categories/types";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { extendAllCategories } from "./utils";
+import useCategoryParams from "../../hooks/use-category-params";
 
 interface Props {
     isOpen: boolean;
@@ -40,7 +41,25 @@ function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
     // Adds the "All" category to the list of children categories if they exist
     const extendedData = useMemo(() => extendAllCategories(categories), [categories]);
 
-    const [activeCategory, setActiveCategory] = useState<RootCategory | null>(null);
+    const { activeCategorySlug, activeSubcategorySlug } = useCategoryParams();
+
+    const [activeCategory, setActiveCategory] = useState<RootCategory | null>(
+        extendedData.find((category) => category.slug === activeCategorySlug) ?? null,
+    );
+
+    const [activeSubcategory, setActiveSubcategory] = useState<ChildCategory | null>(
+        activeCategory?.children?.find((subcategory) => subcategory.slug === activeSubcategorySlug) ?? null,
+    );
+
+    useEffect(() => {
+        setActiveCategory(extendedData.find((category) => category.slug === activeCategorySlug) ?? null);
+    }, [extendedData, activeCategorySlug]);
+
+    useEffect(() => {
+        setActiveSubcategory(
+            activeCategory?.children?.find((subcategory) => subcategory.slug === activeSubcategorySlug) ?? null,
+        );
+    }, [activeSubcategorySlug, activeCategory]);
 
     const handleCategoryClick = (category: RootCategory) => {
         setActiveCategory((prev) => {
@@ -92,7 +111,7 @@ function SearchCategoriesSidebarSuspense({ isOpen, onOpenChange }: Props) {
                                                 onClick={() => {
                                                     onOpenChange(false);
                                                 }}
-                                                isActive={activeCategory?.id === child.id}
+                                                isActive={activeSubcategory?.id === child.id}
                                             />
                                         ))}
                                     </div>
@@ -147,6 +166,7 @@ function SidebarButton({
                 !!parent && "pl-8",
                 isLeaf && "underline",
                 isActive && `${categoryColor} ${categoryTextColor}`,
+                isActive && parent && "opacity-80 hover:opacity-100",
             )}
             asChild={isLeaf}
         >

@@ -11,6 +11,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import SearchCategoriesDropdown from "./search-categories-dropdown";
 import SearchCategoriesSidebar from "./search-categories-sidebar";
 import { useSearchCategories } from "./use-search-categories";
+import SearchBreadcrumbs from "./search-breadcrumbs";
 
 export default function SearchCategories() {
     return (
@@ -21,6 +22,7 @@ export default function SearchCategories() {
 }
 
 function SearchCategoriesSuspense() {
+    console.log("SearchCategories");
     // TODO On mobile, only show the Show All button and the currently active category
 
     const trpc = useTRPC();
@@ -38,6 +40,9 @@ function SearchCategoriesSuspense() {
         isSidebarOpen,
         setIsSidebarOpen,
         activeCategorySlug,
+        activeCategory,
+        activeSubcategory,
+        activeSubcategorySlug,
         isActiveCategoryHidden,
     } = useSearchCategories(data.categories);
 
@@ -66,13 +71,17 @@ function SearchCategoriesSuspense() {
             {/* Real categories */}
             <div
                 ref={containerRef}
-                className="flex w-full flex-nowrap gap-4 lg:justify-center"
+                className="flex w-full flex-nowrap gap-4"
                 onPointerEnter={() => setIsHovered(true)}
                 onPointerLeave={() => setIsHovered(false)}
             >
                 {extendedData.slice(0, visibleCount).map((category) => (
                     <div key={category.id}>
-                        <SearchCategoriesDropdown category={category} isActive={activeCategorySlug === category.slug} />
+                        <SearchCategoriesDropdown
+                            category={category}
+                            isActive={activeCategorySlug === category.slug}
+                            activeSubcategorySlug={activeSubcategorySlug}
+                        />
                     </div>
                 ))}
 
@@ -85,6 +94,8 @@ function SearchCategoriesSuspense() {
                     />
                 </div>
             </div>
+
+            <SearchBreadcrumbs activeCategory={activeCategory} activeSubcategory={activeSubcategory} />
         </div>
     );
 }
@@ -97,7 +108,13 @@ interface ShowAllButtonProps {
 function ShowAllButton({ isActiveCategoryHidden, onClick }: ShowAllButtonProps) {
     // TODO Give a visual clue when current active category is not visible
     return (
-        <Button type="button" variant={isActiveCategoryHidden ? "inverted" : "default"} onClick={onClick}>
+        <Button
+            type="button"
+            variant={isActiveCategoryHidden ? "inverted" : "default"}
+            border={isActiveCategoryHidden ? "transparent" : "neo"}
+            hover={isActiveCategoryHidden ? "ghost_inverted" : "none"}
+            onClick={onClick}
+        >
             <span>Show All</span>
             <ListFilterIcon />
         </Button>

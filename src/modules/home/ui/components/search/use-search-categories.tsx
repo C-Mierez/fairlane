@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useIsMobile } from "@hooks/use-is-mobile";
 import type { RootCategory } from "@modules/categories/types";
 
-import { ALL_SLUG, ITEM_GAP_WIDTH } from "./constants";
+import useCategoryParams from "../../hooks/use-category-params";
+import { ITEM_GAP_WIDTH } from "./constants";
 import { extendRootCategories } from "./utils";
 
 export function useSearchCategories(categories: RootCategory[]) {
@@ -19,9 +20,22 @@ export function useSearchCategories(categories: RootCategory[]) {
     const [visibleCount, setVisibleCount] = useState(extendedData.length);
     const [isHovered, setIsHovered] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [activeCategorySlug, setActiveCategory] = useState<string>(ALL_SLUG);
 
+    const { activeCategorySlug, activeSubcategorySlug } = useCategoryParams();
     const activeCategoryIndex = extendedData.findIndex((category) => category.slug === activeCategorySlug);
+    const activeCategory = extendedData[activeCategoryIndex];
+
+    const activeSubcategoryIndex =
+        activeCategory && activeCategory.children && activeCategory.children.length > 0
+            ? activeCategory.children.findIndex((subcategory) => subcategory.slug === activeSubcategorySlug)
+            : -1;
+    const activeSubcategory =
+        activeSubcategoryIndex !== -1
+            ? activeCategory.children
+                ? activeCategory.children[activeSubcategoryIndex]
+                : null
+            : null;
+
     const isActiveCategoryHidden = activeCategoryIndex >= visibleCount && activeCategoryIndex !== -1;
 
     useEffect(() => {
@@ -79,7 +93,9 @@ export function useSearchCategories(categories: RootCategory[]) {
         isSidebarOpen,
         setIsSidebarOpen,
         activeCategorySlug,
-        setActiveCategory,
+        activeSubcategorySlug,
+        activeCategory,
+        activeSubcategory,
         isActiveCategoryHidden,
     };
 }

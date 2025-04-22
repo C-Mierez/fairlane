@@ -10,7 +10,7 @@ interface Props {
 
 export function NavbarItem({ item }: Props) {
     return (
-        <Button hover={"ghost"} font_size={"lg"} asChild>
+        <Button border={"transparent"} hover={"ghost"} font_size={"lg"} asChild>
             <Link href={item.href}>{item.name}</Link>
         </Button>
     );

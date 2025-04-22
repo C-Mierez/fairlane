@@ -15,12 +15,14 @@ import SubcategoriesMenu from "./subcategories-menu";
 interface Props {
     category: RootCategory;
     isActive: boolean;
+    activeSubcategorySlug?: string;
     isScaffold?: boolean;
 }
 
 export default function SearchCategoriesDropdown({
     category,
     isActive,
+    activeSubcategorySlug,
     isScaffold = false,
 }: Props & {
     children?: React.ReactNode;
@@ -57,7 +59,13 @@ export default function SearchCategoriesDropdown({
     return (
         <div ref={dropdownRef} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} className="relative">
             <span className="relative">
-                <Button variant={isActive ? "inverted" : "default"} shadow={isOpen ? "neo" : "none"} asChild>
+                <Button
+                    variant={isActive ? "inverted" : "default"}
+                    shadow={isOpen ? "neo" : "none"}
+                    border={isActive ? "transparent" : "neo"}
+                    hover={isActive ? "ghost_inverted" : "none"}
+                    asChild
+                >
                     <Link href={buildCategoryUrl(category.slug)}>{category.name}</Link>
                 </Button>
 
@@ -70,7 +78,12 @@ export default function SearchCategoriesDropdown({
                 ></div>
             </span>
 
-            <SubcategoriesMenu category={category} isOpen={isOpen} position={dropdownPosition} />
+            <SubcategoriesMenu
+                category={category}
+                isOpen={isOpen}
+                position={dropdownPosition}
+                activeSubcategorySlug={activeSubcategorySlug}
+            />
         </div>
     );
 }

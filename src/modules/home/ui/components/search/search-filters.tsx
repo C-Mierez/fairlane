@@ -1,13 +1,14 @@
 import SearchCategories from "./search-categories";
+import SearchFilterContainer from "./search-filter-container";
 import SearchInput from "./search-input";
 
 export default function SearchFilters() {
     return (
         <section>
-            <div className="border-b-neo grid w-full">
+            <SearchFilterContainer>
                 <SearchInput />
                 <SearchCategories />
-            </div>
+            </SearchFilterContainer>
         </section>
     );
 }
