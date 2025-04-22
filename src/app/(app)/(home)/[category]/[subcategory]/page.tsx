@@ -1,3 +1,6 @@
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
+import ProductList from "@modules/products/ui/components/product-list";
+
 interface Props {
     params: Promise<{
         category: string;
@@ -5,13 +8,18 @@ interface Props {
     }>;
 }
 
-export default async function CategoryPage({ params }: Props) {
-    const { category: categorySlug, subcategory: subcategorySlug } = await params;
+export default async function SubcategoryPage({ params }: Props) {
+    const { subcategory: subcategorySlug } = await params;
+
+    prefetch(
+        trpc.products.getByCategory.queryOptions({
+            categorySlug: subcategorySlug,
+        }),
+    );
 
     return (
-        <div>
-            <div>{categorySlug}</div>
-            <div>{subcategorySlug}</div>
-        </div>
+        <HydrateClient>
+            <ProductList categorySlug={subcategorySlug} />
+        </HydrateClient>
     );
 }
