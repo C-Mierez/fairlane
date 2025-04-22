@@ -34,6 +34,7 @@ const buttonVariants = cva(
                 none: "",
                 to_primary: "hover:bg-primary hover:text-primary-foreground",
                 to_background: "hover:bg-background hover:text-foreground",
+                to_foreground: "hover:bg-foreground hover:text-background",
                 ghost: "hover:!border-foreground",
                 ghost_inverted: "hover:!border-background",
             },

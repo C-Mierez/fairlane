@@ -6,6 +6,7 @@ import { TRPCReactProvider } from "@/trpc/client";
 import AuthProvider from "@components/layout/auth-provider";
 import BodyWrapper from "@components/layout/body-wrapper";
 import { Toaster } from "@components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
     title: "Fairlane",
@@ -25,13 +26,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <BodyWrapper>
-                <TRPCReactProvider>
-                    <AuthProvider>
-                        {/* // */}
-                        {children}
-                        <Toaster />
-                    </AuthProvider>
-                </TRPCReactProvider>
+                <NuqsAdapter>
+                    <TRPCReactProvider>
+                        <AuthProvider>
+                            {/* // */}
+                            {children}
+                            <Toaster />
+                        </AuthProvider>
+                    </TRPCReactProvider>
+                </NuqsAdapter>
             </BodyWrapper>
         </html>
     );

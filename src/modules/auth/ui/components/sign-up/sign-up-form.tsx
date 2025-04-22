@@ -108,12 +108,7 @@ export default function SignUpForm() {
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleSubmit, (err) => {
-                    console.log(err);
-                })}
-                className="flex flex-col gap-4"
-            >
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
                 <FormField
                     name="username"
                     control={control}

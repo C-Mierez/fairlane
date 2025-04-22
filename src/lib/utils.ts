@@ -44,3 +44,29 @@ export function getCategoryColor(category: Category) {
 
     return { categoryColor, categoryTextColor, categoryColorHover, categoryTextColorHover };
 }
+
+export function sanitizeStringAsNumber(value: string) {
+    const sanitizedValue = value.replace(/[^0-9.]/g, "");
+    const parts = sanitizedValue.split(".");
+
+    const formattedValue = parts[0] + (parts.length > 1 ? "." + parts[1].slice(0, 2) : "");
+
+    return formattedValue;
+}
+
+export function formatAsCurrency(price: string) {
+    const sanitizedValue = sanitizeStringAsNumber(price);
+
+    if (!sanitizedValue) return "";
+
+    const numberValue = parseFloat(sanitizedValue);
+
+    if (isNaN(numberValue)) return "";
+
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    }).format(numberValue);
+}

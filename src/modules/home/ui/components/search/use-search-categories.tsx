@@ -30,7 +30,7 @@ export function useSearchCategories(categories: RootCategory[]) {
             ? activeCategory.children.findIndex((subcategory) => subcategory.slug === activeSubcategorySlug)
             : -1;
     const activeSubcategory =
-        activeSubcategoryIndex !== -1
+        activeSubcategoryIndex !== -1 && activeCategory
             ? activeCategory.children
                 ? activeCategory.children[activeSubcategoryIndex]
                 : null

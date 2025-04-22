@@ -22,7 +22,6 @@ export default function SearchCategories() {
 }
 
 function SearchCategoriesSuspense() {
-    console.log("SearchCategories");
     // TODO On mobile, only show the Show All button and the currently active category
 
     const trpc = useTRPC();
