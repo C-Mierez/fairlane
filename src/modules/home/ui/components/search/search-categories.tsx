@@ -8,7 +8,7 @@ import SuspenseWithError from "@components/utils/suspended";
 import { cn } from "@lib/utils";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import SearchCategoriesDropdown from "./search-categories-dropdown";
+import SearchCategoriesDropdown, { SearchCategoriesDropdownScaffold } from "./search-categories-dropdown";
 import SearchCategoriesSidebar from "./search-categories-sidebar";
 import { useSearchCategories } from "./use-search-categories";
 import SearchBreadcrumbs from "./search-breadcrumbs";
@@ -58,10 +58,9 @@ function SearchCategoriesSuspense() {
             >
                 {extendedData.map((category) => (
                     <div key={category.id}>
-                        <SearchCategoriesDropdown
+                        <SearchCategoriesDropdownScaffold
                             category={category}
                             isActive={activeCategorySlug === category.slug}
-                            isScaffold={true}
                         />
                     </div>
                 ))}

@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import { useCallback, useEffect, useState, type RefObject } from "react";
 
 const DEFAULT_WIDTH = 240; // 15rem === w-60
 
@@ -19,15 +19,15 @@ export default function useDropdown(
     const defaultWidth = opts?.width || DEFAULT_WIDTH;
     const defaultPadding = opts?.padding || DEFAULT_PADDING;
 
-    function getDropdownPosition(): DropdownPosition {
+    const calculatePosition = useCallback(() => {
         if (!ref.current) return { top: 0, left: 0 };
 
         const rect = ref.current.getBoundingClientRect();
         const dropdownWidth = defaultWidth;
 
         // Calculate the initial position of the dropdown
-        let left = rect.left + window.scrollX;
-        const top = rect.bottom + window.scrollY;
+        let left = rect.left;
+        const top = rect.bottom;
 
         // Check if the dropdown goes off the right side of the screen
         if (left + dropdownWidth > window.innerWidth) {
@@ -48,9 +48,30 @@ export default function useDropdown(
         }
 
         return { top, left };
-    }
+    }, [ref, defaultWidth, defaultPadding]);
+
+    const [dropdownPosition, setDropdownPosition] = useState<DropdownPosition>(calculatePosition());
+
+    useEffect(() => {
+        // Initial calculation
+        setDropdownPosition(calculatePosition());
+
+        const handleScroll = () => {
+            setDropdownPosition(calculatePosition());
+        };
+
+        window.addEventListener("scroll", handleScroll, true); // Use capture phase for potentially faster updates
+        window.addEventListener("resize", handleScroll); // Also update on resize
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener("scroll", handleScroll, true);
+            window.removeEventListener("resize", handleScroll);
+        };
+    }, [calculatePosition]); // Rerun effect if calculatePosition changes
 
     return {
-        getDropdownPosition,
+        dropdownPosition,
+        calculatePosition,
     };
 }

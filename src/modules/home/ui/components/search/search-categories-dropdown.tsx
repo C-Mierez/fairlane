@@ -16,23 +16,27 @@ interface Props {
     category: RootCategory;
     isActive: boolean;
     activeSubcategorySlug?: string;
-    isScaffold?: boolean;
+}
+
+export function SearchCategoriesDropdownScaffold({ isActive, category }: Props) {
+    return (
+        <Button type="button" aria-hidden variant={isActive ? "primary" : "default"}>
+            {category.name}
+        </Button>
+    );
 }
 
 export default function SearchCategoriesDropdown({
     category,
     isActive,
     activeSubcategorySlug,
-    isScaffold = false,
 }: Props & {
     children?: React.ReactNode;
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const { getDropdownPosition } = useDropdown(dropdownRef);
-
-    const dropdownPosition = getDropdownPosition();
+    const { dropdownPosition } = useDropdown(dropdownRef);
 
     const hasChildren = !!category.children && category.children.length > 0;
 
@@ -47,14 +51,6 @@ export default function SearchCategoriesDropdown({
             setIsOpen(false);
         }
     };
-
-    if (isScaffold) {
-        return (
-            <Button type="button" aria-hidden variant={isActive ? "primary" : "default"}>
-                {category.name}
-            </Button>
-        );
-    }
 
     return (
         <div ref={dropdownRef} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave} className="relative">
