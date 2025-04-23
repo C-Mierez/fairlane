@@ -27,6 +27,8 @@ function ProductListSuspense({ categorySlug }: Props) {
             categorySlug,
             minPrice: filters.minPrice,
             maxPrice: filters.maxPrice,
+            tags: filters.tags,
+            sort: filters.sort,
         }),
     );
 

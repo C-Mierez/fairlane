@@ -1,14 +1,13 @@
+import { ProductSortSchema } from "@modules/products/schema";
 import type { UrlKeys } from "nuqs";
 import { useQueryStates } from "nuqs";
-import { createLoader, parseAsInteger } from "nuqs/server";
+import { createLoader, parseAsArrayOf, parseAsInteger, parseAsString, parseAsStringLiteral } from "nuqs/server";
 
 const ProductFiltersParser = {
-    minPrice: parseAsInteger.withOptions({
-        clearOnDefault: true,
-    }),
-    maxPrice: parseAsInteger.withOptions({
-        clearOnDefault: true,
-    }),
+    minPrice: parseAsInteger,
+    maxPrice: parseAsInteger,
+    tags: parseAsArrayOf(parseAsString).withDefault([]),
+    sort: parseAsStringLiteral(ProductSortSchema.options).withDefault("trending"),
 };
 
 export type ProductFiltersType = typeof ProductFiltersParser;
@@ -16,6 +15,8 @@ export type ProductFiltersType = typeof ProductFiltersParser;
 export const ProductFiltersKeys: UrlKeys<ProductFiltersType> = {
     minPrice: "min",
     maxPrice: "max",
+    tags: "tags",
+    sort: "sort",
 };
 
 export const loadProductFilters = createLoader(ProductFiltersParser);

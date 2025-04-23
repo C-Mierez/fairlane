@@ -10,8 +10,9 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
-import { Users } from "./collections/Users";
 import { Products } from "./collections/Products";
+import { Tags } from "./collections/Tags";
+import { Users } from "./collections/Users";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -23,7 +24,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Users, Media, Categories, Products],
+    collections: [Users, Media, Categories, Products, Tags],
     cookiePrefix: "fairlane",
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || "",

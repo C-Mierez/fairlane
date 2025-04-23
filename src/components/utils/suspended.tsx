@@ -12,7 +12,12 @@ interface Props {
 }
 
 export default function SuspenseWithError({ fallback, error, children }: Props) {
-    if (!fallback) fallback = <Loader2Icon className="animate-spin" />;
+    if (!fallback)
+        fallback = (
+            <div className="flex w-full items-center justify-center">
+                <Loader2Icon className="animate-spin" />
+            </div>
+        );
 
     if (!error) error = <div>Something went wrong</div>;
 

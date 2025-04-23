@@ -8,6 +8,7 @@ import { Button } from "@components/ui/button";
 
 import useProductFilters, { type ProductFiltersType } from "../hooks/use-product-filters";
 import PriceFilter from "./filters/price-filter";
+import TagsFilter from "./filters/tags-filter";
 
 interface Props {
     categorySlug?: string;
@@ -16,7 +17,7 @@ interface Props {
 export default function ProductFilters({ categorySlug }: Props) {
     const [filters, setFilters] = useProductFilters();
 
-    function handleChange(key: keyof ProductFiltersType, value: number | null) {
+    function handleChange(key: keyof ProductFiltersType, value: unknown) {
         setFilters({
             ...filters,
             [key]: value,
@@ -27,39 +28,46 @@ export default function ProductFilters({ categorySlug }: Props) {
         setFilters({
             minPrice: null,
             maxPrice: null,
+            tags: null,
         });
     }
 
-    const showClearButton = Object.entries(filters).some(([, val]) => {
-        return !!val;
+    const showClearButton = Object.entries(filters).some(([key, val]) => {
+        if (key === "sort") return false; // Don't show clear button for sort
+
+        if (Array.isArray(val)) return val.length > 0;
+
+        if (typeof val === "number") return val > 0;
     });
 
     return (
         <div className="neo-container bg-background flex flex-col overflow-hidden">
             <header className="border-b-neo flex items-center justify-between gap-2 p-4">
                 <span>Filters</span>
-                {showClearButton && (
-                    <Button
-                        variant={"link"}
-                        size={"sm"}
-                        rise={"none"}
-                        border={"transparent"}
-                        hover={"ghost"}
-                        onClick={handleClear}
-                    >
-                        Clear
-                    </Button>
-                )}
+                <Button
+                    variant={"link"}
+                    size={"sm"}
+                    rise={"none"}
+                    border={"transparent"}
+                    hover={"ghost"}
+                    onClick={handleClear}
+                    className={!showClearButton ? "invisible" : ""}
+                >
+                    Clear
+                </Button>
             </header>
 
             <ul>
-                <Filter title="Price">
+                <Filter title="Price" isActive={!!filters.minPrice || !!filters.maxPrice}>
                     <PriceFilter
                         minPrice={filters.minPrice?.toString() || null}
                         maxPrice={filters.maxPrice?.toString() || null}
                         onMinPriceChange={(value) => handleChange("minPrice", value)}
                         onMaxPriceChange={(value) => handleChange("maxPrice", value)}
                     />
+                </Filter>
+                <Filter title="Tags" isActive={!!filters.tags && filters.tags.length > 0}>
+                    <TagsFilter tags={filters.tags} onTagsChange={(value) => handleChange("tags", value)} />
                 </Filter>
             </ul>
         </div>
@@ -68,11 +76,12 @@ export default function ProductFilters({ categorySlug }: Props) {
 
 interface FilterProps {
     title: string;
+    isActive: boolean;
     children: React.ReactNode;
 }
 
-function Filter({ title, children }: FilterProps) {
-    const [isOpen, setIsOpen] = useState(false);
+function Filter({ title, children, isActive }: FilterProps) {
+    const [isOpen, setIsOpen] = useState(isActive);
 
     function handleClick() {
         setIsOpen((prev) => !prev);
@@ -87,7 +96,7 @@ function Filter({ title, children }: FilterProps) {
                 rise={"none"}
                 radius={"none"}
                 hover={"to_foreground"}
-                variant={isOpen ? "inverted" : "default"}
+                variant={isOpen || isActive ? "inverted" : "default"}
                 className="justify-between text-base"
             >
                 <span className="line-clamp-1">{title}</span>

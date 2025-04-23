@@ -1,4 +1,4 @@
-import type { Where } from "payload";
+import type { Sort, Where } from "payload";
 
 import type { Category } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
@@ -19,8 +19,27 @@ export const productsRouter = createTRPCRouter({
 
     getByFilters: baseProcedure.input(GetByFiltersSchema).query(async ({ ctx, input }) => {
         const where: Where = {};
+        let sort: Sort = "-createdAt";
 
-        console.log("Endpoint hit with filters", input);
+        if (input.sort) {
+            switch (input.sort) {
+                case "trending":
+                    sort = "-createdAt";
+                    break;
+                case "price_asc":
+                    sort = "price";
+                    break;
+                case "price_desc":
+                    sort = "-price";
+                    break;
+                case "name_asc":
+                    sort = "name";
+                    break;
+                case "name_desc":
+                    sort = "-name";
+                    break;
+            }
+        }
 
         if (input.minPrice && input.maxPrice) {
             where["price"] = {
@@ -34,6 +53,12 @@ export const productsRouter = createTRPCRouter({
         } else if (input.maxPrice) {
             where["price"] = {
                 less_than_equal: input.maxPrice,
+            };
+        }
+
+        if (input.tags && input.tags.length > 0) {
+            where["tags.name"] = {
+                in: input.tags,
             };
         }
 
@@ -78,7 +103,7 @@ export const productsRouter = createTRPCRouter({
             collection: "products",
             depth: 1, // Get the Category data as well
             where,
-            sort: "name",
+            sort,
         });
 
         return data;
