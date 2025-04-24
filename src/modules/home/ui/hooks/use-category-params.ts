@@ -14,7 +14,7 @@ export default function useCategoryParams() {
         if (activeCategorySlug === ALL_SLUG) {
             return undefined;
         }
-        return subcategorySlug;
+        return subcategorySlug || ALL_SLUG;
     }, [activeCategorySlug, subcategorySlug]);
 
     return {

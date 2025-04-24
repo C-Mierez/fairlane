@@ -1,4 +1,3 @@
-import type { Category } from "@/payload-types";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -7,12 +6,13 @@ import {
     BreadcrumbSeparator,
 } from "@components/ui/breadcrumb";
 import { cn } from "@lib/utils";
+import type { ChildCategory, RootCategory } from "@modules/categories/types";
 
 import { ALL_SLUG } from "./constants";
 
 interface Props {
-    activeCategory: Category;
-    activeSubcategory: Category | null;
+    activeCategory?: RootCategory;
+    activeSubcategory?: ChildCategory;
 }
 
 export default function SearchBreadcrumbs({ activeCategory, activeSubcategory }: Props) {
