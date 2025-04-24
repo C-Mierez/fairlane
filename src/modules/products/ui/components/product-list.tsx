@@ -1,9 +1,15 @@
 "use client";
 
 import { useTRPC } from "@/trpc/client";
+import InfiniteLoader from "@components/infinite-loader";
+import { Skeleton } from "@components/ui/skeleton";
 import SuspenseWithError from "@components/utils/suspended";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { DEFAULT_PAGINATION_LIMIT } from "@lib/schema";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+
 import useProductFilters from "../hooks/use-product-filters";
+import ProductCard from "./product-card";
+import { InboxIcon } from "lucide-react";
 
 interface Props {
     categorySlug?: string;
@@ -11,7 +17,7 @@ interface Props {
 
 export default function ProductGrid(props: Props) {
     return (
-        <SuspenseWithError>
+        <SuspenseWithError fallback={<ProductListSkeleton />}>
             <ProductListSuspense {...props} />
         </SuspenseWithError>
     );
@@ -22,25 +28,67 @@ function ProductListSuspense({ categorySlug }: Props) {
 
     const trpc = useTRPC();
 
-    const { data } = useSuspenseQuery(
-        trpc.products.getByFilters.queryOptions({
-            categorySlug,
-            minPrice: filters.minPrice,
-            maxPrice: filters.maxPrice,
-            tags: filters.tags,
-            sort: filters.sort,
-        }),
+    const { data, isFetchingNextPage, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery(
+        trpc.products.getInfiniteByFilters.infiniteQueryOptions(
+            {
+                categorySlug,
+                minPrice: filters.minPrice,
+                maxPrice: filters.maxPrice,
+                tags: filters.tags,
+                sort: filters.sort,
+                limit: DEFAULT_PAGINATION_LIMIT,
+            },
+            {
+                getNextPageParam: (lastPage) => (lastPage.docs.length > 0 ? lastPage.nextPage : undefined),
+            },
+        ),
     );
 
+    const flattenedData = data.pages.flatMap((page) => page.docs);
+
     return (
-        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {data.docs.map((product) => (
-                <li key={product.id} className="neo-container bg-background flex flex-col gap-2 p-2">
-                    <div>{product.name}</div>
-                    <div>{product.stock}</div>
-                    <div>{product.price}$</div>
-                </li>
-            ))}
-        </ul>
+        <div className="flex flex-col gap-4">
+            {flattenedData.length > 0 ? (
+                <>
+                    <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                        {flattenedData.map((product) => (
+                            <ProductCard
+                                key={product.id}
+                                id={product.id}
+                                name={product.name}
+                                price={product.price}
+                                imageUrl={product.image?.url}
+                                authorUsername={"Test"} // TODO Get the real author
+                                authorImageUrl={product.image?.url} // TODO Get the real author
+                                reviewCount={435}
+                                reviewRating={4.5} // TODO Get the real review rating
+                            />
+                        ))}
+                    </ul>
+                    <InfiniteLoader
+                        isFetchingNextPage={isFetchingNextPage}
+                        hasNextPage={hasNextPage}
+                        fetchNextPage={fetchNextPage}
+                    />
+                </>
+            ) : (
+                <div className="bg-background neo-container grid place-items-center p-4">
+                    <InboxIcon className="size-4" />
+                    <span className="text-muted-foreground text-sm">No Products found</span>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function ProductListSkeleton() {
+    return (
+        <div className="flex flex-col gap-4">
+            <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {Array.from({ length: 12 }).map((_, index) => (
+                    <Skeleton key={index} className="aspect-[438/632]" />
+                ))}
+            </ul>
+        </div>
     );
 }
