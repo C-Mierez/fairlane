@@ -10,7 +10,7 @@ export default function SignUpView() {
         <div className="flex flex-col gap-8">
             <header className="flex items-center justify-between">
                 <BrandLogo prefetch href={"/"} variant={"md"} />
-                <Button size={"sm"} variant={"link"} border={"neo"} rise={"neo"} hover={"ghost"}>
+                <Button size={"sm"} variant={"link"} border={"transparent"} rise={"neo"} hover={"ghost"} asChild>
                     <Link href={"/sign-in"}>Sign In</Link>
                 </Button>
             </header>
