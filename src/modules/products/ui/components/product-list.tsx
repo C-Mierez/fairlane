@@ -58,9 +58,9 @@ function ProductListSuspense({ categorySlug }: Props) {
                                 name={product.name}
                                 price={product.price}
                                 imageUrl={product.image?.url}
-                                authorUsername={"Test"} // TODO Get the real author
-                                authorImageUrl={product.image?.url} // TODO Get the real author
-                                reviewCount={435}
+                                authorUsername={product.tenant.name}
+                                authorImageUrl={product.tenant.image?.url}
+                                reviewCount={435} // TODO Get the real review rating
                                 reviewRating={4.5} // TODO Get the real review rating
                             />
                         ))}

@@ -1,6 +1,6 @@
 import type { Sort, Where } from "payload";
 
-import type { Category, Media } from "@/payload-types";
+import type { Category, Media, Tenant } from "@/payload-types";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 
@@ -101,7 +101,7 @@ export const productsRouter = createTRPCRouter({
 
         const data = await ctx.payload.find({
             collection: "products",
-            depth: 1, // Get the Category and Media data as well
+            depth: 2, // Get the Category, Tenant, Media data as well
             where,
             sort,
             page: input.cursor,
@@ -112,7 +112,8 @@ export const productsRouter = createTRPCRouter({
             ...data,
             docs: data.docs.map((doc) => ({
                 ...doc,
-                image: doc.image as Media | null, // Cast is possible because query has depth 1
+                image: doc.image as Media | null, // Cast is possible because query has depth 2
+                tenant: doc.tenant as Tenant & { image: Media | null }, // Cast is possible because query has depth 2 and Tenant is required
             })),
         };
     }),

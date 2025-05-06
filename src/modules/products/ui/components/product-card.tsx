@@ -12,6 +12,8 @@ type ProductForCard = Pick<Product, "id" | "name" | "price"> & {
     reviewRating: number;
 };
 
+const DEFAULT_IMAGE_URL = "/mosaic.png";
+
 export default function ProductCard({
     id,
     name,
@@ -26,20 +28,23 @@ export default function ProductCard({
         <li className="neo-container neo-hover bg-background isolate overflow-hidden">
             <Link href={"/"} className="flex flex-col">
                 <div className="relative aspect-square">
-                    <Image fill src={"/mosaic.png"} alt={name} className="object-cover" />
+                    <Image fill src={imageUrl || DEFAULT_IMAGE_URL} alt={name} className="object-cover" />
                 </div>
                 <div className="border-t-neo flex flex-1 flex-col gap-3 p-4">
                     <h2 className="font-brand-medium line-clamp-1 text-xl font-medium">{name}</h2>
-                    {!!"/mosaic.png" && (
-                        <div className="flex items-center gap-2">
-                            <div className="relative size-4">
-                                <Image src={"/mosaic.png"} alt={authorUsername} fill className="rounded-base" />
-                            </div>
-                            <span className="text-muted-foreground line-clamp-1 text-sm underline">
-                                {authorUsername}
-                            </span>
+
+                    <div className="flex items-center gap-2">
+                        <div className="relative size-4">
+                            <Image
+                                src={authorImageUrl || DEFAULT_IMAGE_URL}
+                                alt={authorUsername}
+                                fill
+                                className="rounded-base"
+                            />
                         </div>
-                    )}
+                        <span className="text-muted-foreground line-clamp-1 text-sm underline">{authorUsername}</span>
+                    </div>
+
                     {!!reviewCount && (
                         <div className="text-foreground flex items-center gap-2 text-sm">
                             <StarIcon className="fill-foreground size-4" />
