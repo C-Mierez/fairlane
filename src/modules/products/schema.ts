@@ -11,6 +11,7 @@ export const GetByFiltersSchema = z
         maxPrice: z.number().nullish(),
         tags: z.array(z.string()).nullish(),
         sort: ProductSortSchema.default("trending"),
+        tenantSlug: z.string().nullish(),
     })
     .merge(PaginationSchema);
 

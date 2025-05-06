@@ -19,3 +19,7 @@ export function buildCategoryUrl(categorySlug: string) {
 export function buildSubdomainUrl(username: string) {
     return `${username.toLowerCase()}.shop.com`;
 }
+
+export function buildTenantUrl(tenantSlug: string) {
+    return `/tenants/${tenantSlug}`;
+}

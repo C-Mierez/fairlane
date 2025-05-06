@@ -62,6 +62,12 @@ export const productsRouter = createTRPCRouter({
             };
         }
 
+        if (input.tenantSlug) {
+            where["tenant.slug"] = {
+                equals: input.tenantSlug,
+            };
+        }
+
         if (input.categorySlug) {
             // Get the inputted category's children slugs, if any
             const queriedCategory = await ctx.payload.find({

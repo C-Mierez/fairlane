@@ -1,5 +1,7 @@
 "use client";
 
+import { InboxIcon } from "lucide-react";
+
 import { useTRPC } from "@/trpc/client";
 import InfiniteLoader from "@components/infinite-loader";
 import { Skeleton } from "@components/ui/skeleton";
@@ -9,7 +11,6 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 import useProductFilters from "../hooks/use-product-filters";
 import ProductCard from "./product-card";
-import { InboxIcon } from "lucide-react";
 
 interface Props {
     categorySlug?: string;
@@ -58,8 +59,8 @@ function ProductListSuspense({ categorySlug }: Props) {
                                 name={product.name}
                                 price={product.price}
                                 imageUrl={product.image?.url}
-                                authorUsername={product.tenant.name}
-                                authorImageUrl={product.tenant.image?.url}
+                                tenantSlug={product.tenant.slug}
+                                tenantImageUrl={product.tenant.image?.url}
                                 reviewCount={435} // TODO Get the real review rating
                                 reviewRating={4.5} // TODO Get the real review rating
                             />

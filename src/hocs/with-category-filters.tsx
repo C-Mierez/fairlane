@@ -7,18 +7,20 @@ import { loadProductFilters } from "@modules/products/ui/hooks/use-product-filte
 export type WithCategoryFiltersProps = {
     categorySlug?: string;
     subcategorySlug?: string;
+    tenantSlug?: string;
 };
 type Props = {
     params: Promise<{
-        category: string;
-        subcategory: string;
+        category?: string;
+        subcategory?: string;
+        tenant?: string;
     }>;
     searchParams: Promise<SearchParams>;
 };
 
 export function withCategoryFilters<P extends WithCategoryFiltersProps>(Component: React.ComponentType<P>) {
     return async function WithCategoryFilters(props: Props) {
-        const { category: categorySlug, subcategory: subcategorySlug } = await props.params;
+        const { category: categorySlug, subcategory: subcategorySlug, tenant: tenantSlug } = await props.params;
         const { minPrice, maxPrice, tags, sort } = await loadProductFilters(props.searchParams);
 
         prefetch(
@@ -29,6 +31,7 @@ export function withCategoryFilters<P extends WithCategoryFiltersProps>(Componen
                     maxPrice,
                     tags,
                     sort,
+                    tenantSlug,
                     limit: DEFAULT_PAGINATION_LIMIT,
                 },
                 {
@@ -46,6 +49,7 @@ export function withCategoryFilters<P extends WithCategoryFiltersProps>(Componen
         const componentProps = {
             categorySlug,
             subcategorySlug,
+            tenantSlug,
         } as unknown as P;
 
         return (
