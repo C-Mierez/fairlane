@@ -17,12 +17,35 @@ export const authRouter = createTRPCRouter({
     }),
 
     register: baseProcedure.input(RegisterSchema).mutation(async ({ ctx, input }) => {
+        // Check if the username is already taken
+        if (!(await checkUsername(ctx, input.username))) {
+            throw new TRPCError({
+                code: "CONFLICT",
+                message: "Username already taken",
+            });
+        }
+
+        // Create a tenant for the user
+        const tenant = await ctx.payload.create({
+            collection: "tenants",
+            data: {
+                name: input.username,
+                slug: input.username,
+                stripeAccountId: "test", // TODO Add actual stripe account id
+            },
+        });
+
         const res = await ctx.payload.create({
             collection: "users",
             data: {
                 email: input.email,
                 password: input.password, // Payload handles the password hashing
                 username: input.username,
+                tenants: [
+                    {
+                        tenant: tenant.id,
+                    },
+                ],
             },
         });
 

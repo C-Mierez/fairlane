@@ -6,13 +6,16 @@ import { fileURLToPath } from "url";
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
+import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
 import { Products } from "./collections/Products";
 import { Tags } from "./collections/Tags";
+import { Tenants } from "./collections/Tenants";
 import { Users } from "./collections/Users";
+import type { Config } from "./payload-types";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -24,7 +27,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Users, Media, Categories, Products, Tags],
+    collections: [Users, Media, Categories, Products, Tags, Tenants],
     cookiePrefix: "fairlane",
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || "",
@@ -37,6 +40,15 @@ export default buildConfig({
     sharp,
     plugins: [
         payloadCloudPlugin(),
+        multiTenantPlugin<Config>({
+            collections: {
+                products: {},
+            },
+            tenantsArrayField: {
+                includeDefaultField: false,
+            },
+            userHasAccessToAllTenants: (user) => Boolean(user?.roles?.includes("super-admin")),
+        }),
         // storage-adapter-placeholder
     ],
 });

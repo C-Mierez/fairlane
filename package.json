@@ -11,13 +11,15 @@
         "lint:fix": "next lint --fix",
         "generate:types": "payload generate:types",
         "db:fresh": "payload migrate:fresh",
-        "db:seed:categories": "bun run src/scripts/seed-categories.ts"
+        "db:seed:categories": "bun run src/scripts/seed-categories.ts",
+        "db:seed:admin": "bun run src/scripts/seed-admin.ts"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.0.1",
         "@payloadcms/db-mongodb": "^3.35.1",
         "@payloadcms/next": "^3.35.1",
         "@payloadcms/payload-cloud": "^3.35.1",
+        "@payloadcms/plugin-multi-tenant": "^3.37.0",
         "@payloadcms/richtext-lexical": "^3.35.1",
         "@radix-ui/react-checkbox": "^1.2.3",
         "@radix-ui/react-dialog": "^1.1.7",
