@@ -5,8 +5,30 @@ import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 
 import { GetByFiltersSchema } from "../schema";
+import { z } from "zod";
 
 export const productsRouter = createTRPCRouter({
+    getOneById: baseProcedure
+        .input(
+            z.object({
+                id: z.string(),
+            }),
+        )
+        .query(async ({ ctx, input }) => {
+            const product = await ctx.payload.findByID({
+                collection: "products",
+                id: input.id,
+                depth: 2,
+            });
+
+            return {
+                ...product,
+                image: product.image as Media | null, // Cast is possible because query has depth 2
+                category: product.category as Category, // Cast is possible because query has depth 2
+                tenant: product.tenant as Tenant & { image: Media | null }, // Cast is possible because query has depth 2 and Tenant is required
+            };
+        }),
+
     getAll: baseProcedure.query(async ({ ctx }) => {
         const data = await ctx.payload.find({
             collection: "products",

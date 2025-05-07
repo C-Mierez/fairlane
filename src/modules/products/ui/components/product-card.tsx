@@ -3,8 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { Product, Tenant } from "@/payload-types";
-import { formatAsCurrency } from "@lib/utils";
-import { buildTenantUrl } from "@lib/urls";
+import PriceLabel from "@components/price-label";
+import { DEFAULT_IMAGE_URL } from "@lib/constants";
+import { buildProductUrl, buildTenantUrl } from "@lib/urls";
 
 type ProductForCard = Pick<Product, "id" | "name" | "price"> & {
     imageUrl?: string | null;
@@ -14,9 +15,8 @@ type ProductForCard = Pick<Product, "id" | "name" | "price"> & {
     reviewRating: number;
 };
 
-const DEFAULT_IMAGE_URL = "/mosaic.png";
-
 export default function ProductCard({
+    id,
     name,
     price,
     imageUrl,
@@ -28,7 +28,7 @@ export default function ProductCard({
     return (
         <li className="neo-container neo-hover bg-background relative isolate overflow-hidden">
             <div className="flex flex-col">
-                <Link href={`/`} className="absolute inset-0 z-10" />
+                <Link href={buildProductUrl(tenantSlug, id)} className="absolute inset-0 z-10" />
                 <div className="relative aspect-square">
                     <Image fill src={imageUrl || DEFAULT_IMAGE_URL} alt={name} className="object-cover" />
                 </div>
@@ -56,10 +56,9 @@ export default function ProductCard({
                         </div>
                     )}
                 </div>
+
                 <div className="border-t-neo p-4">
-                    <div className="bg-foreground text-background relative size-fit p-2">
-                        <p className="text-sm font-medium">{formatAsCurrency(price.toString())}</p>
-                    </div>
+                    <PriceLabel price={price} />
                 </div>
             </div>
         </li>

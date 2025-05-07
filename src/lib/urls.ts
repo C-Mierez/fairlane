@@ -23,3 +23,7 @@ export function buildSubdomainUrl(username: string) {
 export function buildTenantUrl(tenantSlug: string) {
     return `/tenants/${tenantSlug}`;
 }
+
+export function buildProductUrl(tenantSlug: string, productId: string) {
+    return `/tenants/${tenantSlug}/products/${productId}`;
+}
