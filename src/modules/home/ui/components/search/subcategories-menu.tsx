@@ -13,10 +13,11 @@ interface Props {
     category: RootCategory;
     isOpen: boolean;
     position: DropdownPosition;
+    isActive: boolean;
     activeSubcategorySlug?: string;
 }
 
-export default function SubcategoriesMenu({ category, isOpen, position, activeSubcategorySlug }: Props) {
+export default function SubcategoriesMenu({ category, isOpen, position, activeSubcategorySlug, isActive }: Props) {
     const { categoryColor, categoryTextColor } = useMemo(() => getCategoryColor(category), [category]);
 
     if (!isOpen || !category.children || category.children.length === 0) return null;
@@ -41,12 +42,12 @@ export default function SubcategoriesMenu({ category, isOpen, position, activeSu
                     )}
                 >
                     {category.children.map((child: Category) => {
-                        const isActive = activeSubcategorySlug === child.slug;
+                        const isSubActive = isActive && activeSubcategorySlug === child.slug;
                         return (
                             <Button
                                 key={child.id}
                                 size={"expanded"}
-                                variant={isActive ? "inverted" : "transparent"}
+                                variant={isSubActive ? "inverted" : "transparent"}
                                 shadow={"none"}
                                 rise={"none"}
                                 border={"none"}

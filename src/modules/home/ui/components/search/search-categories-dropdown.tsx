@@ -78,6 +78,7 @@ export default function SearchCategoriesDropdown({
                 category={category}
                 isOpen={isOpen}
                 position={dropdownPosition}
+                isActive={isActive}
                 activeSubcategorySlug={activeSubcategorySlug}
             />
         </div>
