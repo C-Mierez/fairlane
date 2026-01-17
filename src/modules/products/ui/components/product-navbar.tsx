@@ -4,12 +4,19 @@ import { StarIcon } from "lucide-react";
 
 import { useTRPC } from "@/trpc/client";
 import PriceLabel from "@components/price-label";
-import { Button } from "@components/ui/button";
 import SuspenseWithError from "@components/utils/suspended";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
+import { Button } from "@components/ui/button";
+
+const CartButton = dynamic(() => import("@modules/products/ui/components/cart-button"), {
+    ssr: false,
+    loading: () => <Button disabled>Add to Cart</Button>,
+});
 
 interface Props {
     productId: string;
+    tenantSlug: string;
 }
 
 export default function ProductNavbar(props: Props) {
@@ -20,7 +27,7 @@ export default function ProductNavbar(props: Props) {
     );
 }
 
-function ProductNavbarSuspense({ productId }: Props) {
+function ProductNavbarSuspense({ productId, tenantSlug }: Props) {
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.products.getOneById.queryOptions({ id: productId }));
 
@@ -41,9 +48,7 @@ function ProductNavbarSuspense({ productId }: Props) {
                     </div>
 
                     {/* TODO Add button functionality */}
-                    <Button variant={"inverted"} border={"transparent"} hover={"ghost_inverted"}>
-                        Add to Cart
-                    </Button>
+                    <CartButton tenantSlug={tenantSlug} productId={productId} />
                 </div>
             </div>
         </header>

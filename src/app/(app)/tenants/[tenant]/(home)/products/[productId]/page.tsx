@@ -16,7 +16,7 @@ export default async function ProductPage({ params }: Props) {
 
     return (
         <HydrateClient>
-            <ProductNavbar productId={productId} />
+            <ProductNavbar productId={productId} tenantSlug={tenantSlug} />
             <ProductView productId={productId} tenantSlug={tenantSlug} />
         </HydrateClient>
     );

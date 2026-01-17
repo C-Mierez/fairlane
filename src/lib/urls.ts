@@ -27,3 +27,7 @@ export function buildTenantUrl(tenantSlug: string) {
 export function buildProductUrl(tenantSlug: string, productId: string) {
     return `/tenants/${tenantSlug}/products/${productId}`;
 }
+
+export function buildCheckoutUrl(tenantSlug: string) {
+    return `/tenants/${tenantSlug}/checkout`;
+}

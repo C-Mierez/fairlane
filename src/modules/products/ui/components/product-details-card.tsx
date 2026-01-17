@@ -15,6 +15,16 @@ import SuspenseWithError from "@components/utils/suspended";
 import { DEFAULT_IMAGE_URL } from "@lib/constants";
 import { buildTenantUrl } from "@lib/urls";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
+
+const CartButton = dynamic(() => import("@modules/products/ui/components/cart-button"), {
+    ssr: false,
+    loading: () => (
+        <Button size={"expanded"} disabled>
+            Add to Cart
+        </Button>
+    ),
+});
 
 interface Props {
     productId: string;
@@ -95,15 +105,7 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                 <div>
                     <div className="border-b-neo flex flex-col gap-2 p-4">
                         <div className="flex items-stretch gap-2">
-                            <Button
-                                size={"expanded"}
-                                border={"transparent"}
-                                variant={"inverted"}
-                                hover={"ghost_inverted"}
-                                className="h-10"
-                            >
-                                Add to Cart
-                            </Button>
+                            <CartButton tenantSlug={data.tenant.slug} productId={data.id} isExpanded />
                             <Button size={"icon"} className="h-10">
                                 <LinkIcon />
                             </Button>

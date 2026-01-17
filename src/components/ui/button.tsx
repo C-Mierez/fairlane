@@ -48,6 +48,7 @@ const buttonVariants = cva(
                 lg: "h-11 px-8",
                 icon: "size-10 aspect-square",
                 expanded: "size-full px-4 py-2",
+                link: "p-0 h-min",
             },
             font_size: {
                 default: "text-sm",
