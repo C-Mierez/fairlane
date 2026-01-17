@@ -1,12 +1,13 @@
 "use client";
 
-import { cn, getCategoryColor } from "@lib/utils";
-import useCategoryParams from "../../hooks/use-category-params";
 import { useTRPC } from "@/trpc/client";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import SuspenseWithError from "@components/utils/suspended";
-import { extendRootCategories } from "./utils";
+import { cn, getCategoryColor } from "@lib/utils";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+import useCategoryParams from "../../hooks/use-category-params";
 import { ALL_SLUG } from "./constants";
+import { extendRootCategories } from "./utils";
 
 interface Props {
     children: React.ReactNode;

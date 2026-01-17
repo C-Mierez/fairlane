@@ -1,10 +1,10 @@
 import { type ComponentProps, type ComponentPropsWithoutRef, forwardRef, type ReactNode } from "react";
 
-import { ChevronRight, MoreHorizontal, SlashIcon } from "lucide-react";
+import { MoreHorizontal, SlashIcon } from "lucide-react";
+import Link from "next/link";
 
 import { cn } from "@lib/utils";
 import { Slot } from "@radix-ui/react-slot";
-import Link from "next/link";
 
 const Breadcrumb = forwardRef<
     HTMLElement,

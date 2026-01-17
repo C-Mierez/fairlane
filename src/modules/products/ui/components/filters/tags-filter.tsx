@@ -1,15 +1,12 @@
 "use client";
 
-import type { ChangeEvent } from "react";
-
 import { useTRPC } from "@/trpc/client";
-import SuspenseWithError from "@components/utils/suspended";
-import { sanitizeStringAsNumber } from "@lib/utils";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { DEFAULT_PAGINATION_LIMIT } from "@lib/schema";
-import { Label } from "@components/ui/label";
-import { Checkbox } from "@components/ui/checkbox";
 import { Button } from "@components/ui/button";
+import { Checkbox } from "@components/ui/checkbox";
+import { Label } from "@components/ui/label";
+import SuspenseWithError from "@components/utils/suspended";
+import { DEFAULT_PAGINATION_LIMIT } from "@lib/schema";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
 interface Props {
     tags: string[] | null;

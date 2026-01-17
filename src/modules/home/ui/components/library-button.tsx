@@ -16,7 +16,6 @@ export default function LibraryButton() {
 }
 
 function LibraryButtonSuspense() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { session } = useSession();
 
     if (!session.user) return null;

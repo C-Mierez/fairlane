@@ -1,13 +1,13 @@
+import type { WithCategoryFiltersProps } from "@/hocs/with-category-filters";
+
 import ProductFilters from "../components/product-filters";
 import ProductGrid from "../components/product-list";
 import ProductSort from "../components/product-sort";
 
-interface Props {
-    categorySlug?: string;
-    subcategorySlug?: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface Props extends WithCategoryFiltersProps {}
 
-export default function ProductSearchView({ categorySlug, subcategorySlug }: Props) {
+export default function ProductSearchView({ categorySlug, subcategorySlug, tenantSlug }: Props) {
     return (
         <section>
             <div className="flex flex-col justify-between gap-4 px-4 pt-6 pb-4 md:px-8 lg:flex-row lg:items-end">
@@ -19,7 +19,7 @@ export default function ProductSearchView({ categorySlug, subcategorySlug }: Pro
                     <ProductFilters />
                 </search>
                 <div className="py-4 lg:col-span-4 xl:col-span-6">
-                    <ProductGrid categorySlug={subcategorySlug || categorySlug} />
+                    <ProductGrid categorySlug={subcategorySlug || categorySlug} tenantSlug={tenantSlug} />
                 </div>
             </div>
         </section>

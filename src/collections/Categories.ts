@@ -58,7 +58,7 @@ export const Categories: CollectionConfig = {
                 });
 
                 // Check if the category already has a parent
-                if (parent.docs && parent.docs[0].childOf) {
+                if (parent && parent.docs && parent.docs[0] && parent.docs[0].childOf) {
                     return "You can only have one level of nesting for categories.";
                 }
 

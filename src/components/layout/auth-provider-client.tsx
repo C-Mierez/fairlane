@@ -1,11 +1,11 @@
 "use client";
 
-import type { User } from "@/payload-types";
+import { createContext, use } from "react";
+
 import { useTRPC } from "@/trpc/client";
 import type { AppRouter } from "@/trpc/routers/_app";
 import { useQuery } from "@tanstack/react-query";
 import type { inferRouterOutputs } from "@trpc/server";
-import { createContext, use, useEffect, useState } from "react";
 
 /**
  * Based on https://github.dev/payloadcms/payload/tree/main/examples/auth
@@ -37,6 +37,6 @@ export function AuthProviderClient({ children }: Props) {
     );
 }
 
-type UseAuth<T = User> = () => AuthContext;
+type UseAuth = () => AuthContext;
 
 export const useAuth: UseAuth = () => use(Context);

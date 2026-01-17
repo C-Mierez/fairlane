@@ -2,9 +2,9 @@ import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import TenantNavbar from "../components/navbar/tenant-navbar";
 
 interface Props {
-    params: {
+    params: Promise<{
         tenant: string;
-    };
+    }>;
     children: React.ReactNode;
 }
 

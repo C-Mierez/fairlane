@@ -14,7 +14,7 @@ interface Props {
     categorySlug?: string;
 }
 
-export default function ProductFilters({ categorySlug }: Props) {
+export default function ProductFilters({}: Props) {
     const [filters, setFilters] = useProductFilters();
 
     function handleChange(key: keyof ProductFiltersType, value: unknown) {

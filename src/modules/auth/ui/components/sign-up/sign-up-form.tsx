@@ -13,11 +13,11 @@ import { Button } from "@components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { invalidateOnSignIn } from "@lib/invalidations";
 import { buildSubdomainUrl } from "@lib/urls";
 import { RegisterSchema, type RegisterSchemaType } from "@modules/auth/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTRPCQueryUtils } from "@trpc/react-query";
-import { invalidateOnSignIn } from "@lib/invalidations";
 
 const RegisterSchemaWithUniqueUsername = RegisterSchema.extend({
     username: RegisterSchema.shape.username.refine(
@@ -26,7 +26,7 @@ const RegisterSchemaWithUniqueUsername = RegisterSchema.extend({
 
             try {
                 return await client.auth.checkUsername.fetch({ username: value });
-            } catch (e) {
+            } catch {
                 return false;
             }
         },

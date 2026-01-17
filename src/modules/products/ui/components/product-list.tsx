@@ -14,6 +14,7 @@ import ProductCard from "./product-card";
 
 interface Props {
     categorySlug?: string;
+    tenantSlug?: string;
 }
 
 export default function ProductGrid(props: Props) {
@@ -24,7 +25,7 @@ export default function ProductGrid(props: Props) {
     );
 }
 
-function ProductListSuspense({ categorySlug }: Props) {
+function ProductListSuspense({ categorySlug, tenantSlug }: Props) {
     const [filters] = useProductFilters();
 
     const trpc = useTRPC();
@@ -33,6 +34,7 @@ function ProductListSuspense({ categorySlug }: Props) {
         trpc.products.getInfiniteByFilters.infiniteQueryOptions(
             {
                 categorySlug,
+                tenantSlug,
                 minPrice: filters.minPrice,
                 maxPrice: filters.maxPrice,
                 tags: filters.tags,
