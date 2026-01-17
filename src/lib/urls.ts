@@ -28,6 +28,15 @@ export function buildProductUrl(tenantSlug: string, productId: string) {
     return `/tenants/${tenantSlug}/products/${productId}`;
 }
 
-export function buildCheckoutUrl(tenantSlug: string) {
-    return `/tenants/${tenantSlug}/checkout`;
+export function buildCheckoutUrl(tenantSlug: string, params?: { success?: string; cancel?: string }) {
+    const url = `/tenants/${tenantSlug}/checkout`;
+    const queryParams = new URLSearchParams();
+    if (params?.success) {
+        queryParams.append("success", params.success);
+    }
+    if (params?.cancel) {
+        queryParams.append("cancel", params.cancel);
+    }
+    const queryString = queryParams.toString();
+    return queryString ? `${url}?${queryString}` : url;
 }

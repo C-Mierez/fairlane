@@ -8,6 +8,8 @@ export const env = createEnv({
      */
     server: {
         NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+        STRIPE_SECRET_KEY: z.string(),
+        STRIPE_WEBHOOK_SECRET: z.string(),
     },
 
     /**
@@ -26,6 +28,8 @@ export const env = createEnv({
      */
     runtimeEnv: {
         NODE_ENV: process.env.NODE_ENV,
+        STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+        STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
         // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
         NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL,
     },

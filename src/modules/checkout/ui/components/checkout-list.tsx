@@ -5,7 +5,7 @@ import useCart from "@modules/checkout/hooks/use-cart";
 import { useQuery } from "@tanstack/react-query";
 
 import CheckoutListItem from "./checkout-list-item";
-import { Loader2Icon } from "lucide-react";
+import { InboxIcon, Loader2Icon } from "lucide-react";
 
 interface Props {
     tenantSlug: string;
@@ -26,6 +26,15 @@ export default function CheckoutList({ tenantSlug }: Props) {
         return (
             <div className="bg-background neo-container grid h-fit place-items-center p-4">
                 <Loader2Icon className="animate-spin" />
+            </div>
+        );
+    }
+
+    if (!data || data.totalDocs === 0) {
+        return (
+            <div className="bg-background neo-container grid h-fit place-items-center gap-2 p-4">
+                <InboxIcon className="text-muted-foreground h-6 w-6" />
+                <span className="text-muted-foreground">No products in cart.</span>
             </div>
         );
     }

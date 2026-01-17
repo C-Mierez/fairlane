@@ -1,10 +1,11 @@
 import { cache } from "react";
 
+import { headers as getHeaders } from "next/headers";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { initTRPC } from "@trpc/server";
 import { getPayload } from "@lib/server/payload";
+import { initTRPC, TRPCError } from "@trpc/server";
 
 export const createTRPCContext = cache(async () => {
     // Add payload instance to context
@@ -43,6 +44,24 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
 
 // TODO Authed procedure
-// export const authedProcedure = t.procedure.use(async (opts) => {
-//     return opts.next({})
-// })
+export const authedProcedure = t.procedure.use(async (opts) => {
+    const headers = await getHeaders();
+    const session = await opts.ctx.payload.auth({ headers });
+
+    if (!session.user) {
+        throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "You must be logged in to access this resource",
+        });
+    }
+
+    return opts.next({
+        ctx: {
+            ...opts.ctx,
+            session: {
+                ...session,
+                user: session.user,
+            },
+        },
+    });
+});
