@@ -2,7 +2,7 @@ import type { SearchParams } from "nuqs/server";
 
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { DEFAULT_PAGINATION_LIMIT } from "@lib/schema";
-import { loadProductFilters } from "@modules/products/ui/hooks/use-product-filters";
+import { loadProductFilters } from "@modules/products/ui/hooks/product-filter-parsers";
 
 export type WithCategoryFiltersProps = {
     categorySlug?: string;
