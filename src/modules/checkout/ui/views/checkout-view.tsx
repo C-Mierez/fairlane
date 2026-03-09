@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useTRPC } from "@/trpc/client";
 import useCart from "@modules/checkout/hooks/use-cart";
 import useCheckoutStates from "@modules/checkout/hooks/use-checkout-states";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CheckoutDetails from "../components/checkout-details";
 import CheckoutList from "../components/checkout-list";
@@ -21,6 +21,8 @@ export default function CheckoutView({ tenantSlug }: Props) {
     const { productIds, clearTenantCart } = useCart(tenantSlug);
 
     const router = useRouter();
+
+    const queryClient = useQueryClient();
 
     const [checkoutStates, setCheckoutStates] = useCheckoutStates();
 
@@ -73,11 +75,12 @@ export default function CheckoutView({ tenantSlug }: Props) {
                 cancel: false,
             });
             clearTenantCart();
-            // TODO Invalidate library
+
+            queryClient.invalidateQueries(trpc.library.getInfinite.infiniteQueryFilter());
 
             router.push("/");
         }
-    }, [checkoutStates.success, clearTenantCart, router, setCheckoutStates]);
+    }, [checkoutStates.success, clearTenantCart, router, setCheckoutStates, queryClient, trpc.library.getInfinite]);
 
     return (
         <section className="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-4 md:p-8 lg:grid-cols-3">

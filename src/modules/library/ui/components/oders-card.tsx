@@ -26,7 +26,7 @@ export default function OrdersCard({
     return (
         <li className="neo-container neo-hover bg-background relative isolate overflow-hidden">
             <div className="flex flex-col">
-                <Link href={buildLibraryUrl(id)} className="absolute inset-0 z-10" />
+                <Link prefetch href={buildLibraryUrl(id)} className="absolute inset-0 z-10" />
                 <div className="relative aspect-square">
                     <Image fill src={imageUrl || DEFAULT_IMAGE_URL} alt={name} className="object-cover" />
                 </div>

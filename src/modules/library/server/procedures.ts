@@ -1,8 +1,62 @@
 import type { Media, Tenant } from "@/payload-types";
 import { authedProcedure, createTRPCRouter } from "@/trpc/init";
 import { PaginationSchema } from "@lib/schema";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const libraryRouter = createTRPCRouter({
+    getOne: authedProcedure
+        .input(
+            z.object({
+                productId: z.string(),
+            }),
+        )
+        .query(async ({ ctx, input }) => {
+            const ordersData = await ctx.payload.find({
+                collection: "orders",
+                limit: 1,
+                pagination: false,
+                where: {
+                    and: [
+                        {
+                            product: {
+                                equals: input.productId,
+                            },
+                        },
+                        {
+                            user: {
+                                equals: ctx.session.user.id,
+                            },
+                        },
+                    ],
+                },
+            });
+
+            const order = ordersData.docs[0];
+
+            if (!order) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Order not found in library",
+                });
+            }
+
+            const productData = await ctx.payload.findByID({
+                collection: "products",
+                id: input.productId,
+            });
+
+            if (!productData) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Product not found",
+                });
+            }
+
+            return {
+                ...productData,
+            };
+        }),
     getInfinite: authedProcedure.input(PaginationSchema).query(async ({ ctx, input }) => {
         const data = await ctx.payload.find({
             collection: "orders",
