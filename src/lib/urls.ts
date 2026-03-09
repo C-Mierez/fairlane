@@ -40,3 +40,7 @@ export function buildCheckoutUrl(tenantSlug: string, params?: { success?: string
     const queryString = queryParams.toString();
     return queryString ? `${url}?${queryString}` : url;
 }
+
+export function buildLibraryUrl(productId: string) {
+    return `/library/${productId}`;
+}

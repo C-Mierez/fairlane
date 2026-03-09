@@ -11,8 +11,13 @@ export const createTRPCContext = cache(async () => {
     // Add payload instance to context
     const payload = await getPayload();
 
+    const headers = await getHeaders();
+    const session = await payload.auth({ headers });
+
     return {
         payload,
+        headers,
+        session,
     };
 });
 

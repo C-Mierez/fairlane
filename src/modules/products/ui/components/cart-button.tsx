@@ -1,19 +1,33 @@
 "use client";
 
+import Link from "next/link";
+
 import { Button } from "@components/ui/button";
+import { buildLibraryUrl } from "@lib/urls";
 import useCart from "@modules/checkout/hooks/use-cart";
 
 interface Props {
+    isAlreadyPurchased?: boolean;
     tenantSlug: string;
     productId: string;
     isExpanded?: boolean;
 }
 
-export default function CartButton({ tenantSlug, productId, isExpanded }: Props) {
+export default function CartButton({ tenantSlug, productId, isExpanded, isAlreadyPurchased }: Props) {
     const cart = useCart(tenantSlug);
 
     function onClickHandler() {
         cart.toggleProduct(productId);
+    }
+
+    if (isAlreadyPurchased) {
+        return (
+            <Button size={isExpanded ? "expanded" : "default"} className="h-10" asChild>
+                <Link prefetch href={buildLibraryUrl(productId)}>
+                    Go to Library
+                </Link>
+            </Button>
+        );
     }
 
     return (

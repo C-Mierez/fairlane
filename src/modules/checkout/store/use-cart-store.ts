@@ -14,14 +14,13 @@ type TenantCartActions = {
     removeProduct: (tenantSlug: string, productId: string) => void;
     clearCart: (tenantSlug: string) => void;
     clearAllCarts: () => void;
-    getCartByTenant: (tenantSlug: string) => TenantCart["productIds"];
 };
 
 type TenantCartStore = TenantCartState & TenantCartActions;
 
 export const useCartStore = create<TenantCartStore>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             allCarts: {},
             addProduct: (tenantSlug, productId) =>
                 set((state) => ({
@@ -55,7 +54,6 @@ export const useCartStore = create<TenantCartStore>()(
                 set(() => ({
                     allCarts: {},
                 })),
-            getCartByTenant: (tenantSlug) => get().allCarts[tenantSlug]?.productIds || [],
         }),
         {
             name: "fairlane-cart",

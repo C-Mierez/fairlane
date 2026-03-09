@@ -105,7 +105,13 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                 <div>
                     <div className="border-b-neo flex flex-col gap-2 p-4">
                         <div className="flex items-stretch gap-2">
-                            <CartButton tenantSlug={data.tenant.slug} productId={data.id} isExpanded />
+                            <CartButton
+                                tenantSlug={data.tenant.slug}
+                                productId={data.id}
+                                isAlreadyPurchased={data.isPurchased}
+                                isExpanded
+                            />
+                            {/* TODO Copy to clipboard */}
                             <Button size={"icon"} className="h-10">
                                 <LinkIcon />
                             </Button>

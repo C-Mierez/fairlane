@@ -75,7 +75,7 @@ export default function CheckoutView({ tenantSlug }: Props) {
             clearTenantCart();
             // TODO Invalidate library
 
-            router.push("/products");
+            router.push("/");
         }
     }, [checkoutStates.success, clearTenantCart, router, setCheckoutStates]);
 

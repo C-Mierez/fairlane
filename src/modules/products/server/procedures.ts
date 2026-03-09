@@ -21,11 +21,37 @@ export const productsRouter = createTRPCRouter({
                 depth: 2,
             });
 
+            let isPurchased = false;
+            if (ctx.session.user) {
+                const ordersData = await ctx.payload.find({
+                    collection: "orders",
+                    pagination: false,
+                    limit: 1,
+                    where: {
+                        and: [
+                            {
+                                product: {
+                                    equals: input.id,
+                                },
+                            },
+                            {
+                                user: {
+                                    equals: ctx.session.user.id,
+                                },
+                            },
+                        ],
+                    },
+                });
+
+                isPurchased = ordersData.totalDocs > 0;
+            }
+
             return {
                 ...product,
                 image: product.image as Media | null, // Cast is possible because query has depth 2
                 category: product.category as Category, // Cast is possible because query has depth 2
                 tenant: product.tenant as Tenant & { image: Media | null }, // Cast is possible because query has depth 2 and Tenant is required
+                isPurchased,
             };
         }),
 
