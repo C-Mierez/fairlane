@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
-import OrderGrid from "./components/orders-list";
+
+import OrderGrid from "../components/orders-list";
 
 export default function LibraryView() {
     return (

@@ -9,7 +9,6 @@ import SuspenseWithError from "@components/utils/suspended";
 import { DEFAULT_PAGINATION_LIMIT } from "@lib/schema";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
-import ProductCard from "@modules/products/ui/components/product-card";
 import OrdersCard from "./oders-card";
 
 export default function OrderGrid() {
