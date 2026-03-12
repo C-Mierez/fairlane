@@ -48,8 +48,8 @@ function OrderListSuspense() {
                                 imageUrl={order.image?.url}
                                 tenantSlug={order.tenant.slug}
                                 tenantImageUrl={order.tenant.image?.url}
-                                reviewCount={435} // TODO Get the real review rating
-                                reviewRating={4.5} // TODO Get the real review rating
+                                reviewCount={order.reviewCount}
+                                reviewRating={order.reviewRating}
                             />
                         ))}
                     </ul>

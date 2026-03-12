@@ -47,14 +47,12 @@ export default function ProductCard({
                         <span className="text-muted-foreground line-clamp-1 text-sm underline">{tenantSlug}</span>
                     </Link>
 
-                    {!!reviewCount && (
-                        <div className="text-foreground flex items-center gap-2 text-sm">
-                            <StarIcon className="fill-foreground size-4" />
-                            <p>
-                                {reviewRating} <span className="text-muted-foreground">({reviewCount})</span>
-                            </p>
-                        </div>
-                    )}
+                    <div className="text-foreground flex items-center gap-2 text-sm">
+                        <StarIcon className="fill-foreground size-4" />
+                        <p>
+                            {reviewRating} <span className="text-muted-foreground">({reviewCount})</span>
+                        </p>
+                    </div>
                 </div>
 
                 <div className="border-t-neo p-4">

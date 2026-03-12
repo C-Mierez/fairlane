@@ -42,8 +42,7 @@ function ProductNavbarSuspense({ productId, tenantSlug }: Props) {
                     <div className="text-foreground flex items-center gap-2 text-sm">
                         <StarIcon className="fill-foreground size-4" />
                         <p>
-                            {/* TODO Proper ratings */}
-                            4.3 <span className="text-muted-foreground">(430)</span>
+                            {data.reviewRating} <span className="text-muted-foreground">({data.reviewCount})</span>
                         </p>
                     </div>
 

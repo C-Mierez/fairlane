@@ -2,9 +2,11 @@
 
 import { Fragment, useMemo } from "react";
 
-import { LinkIcon } from "lucide-react";
+import { CheckCheckIcon, LinkIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { useTRPC } from "@/trpc/client";
 import PriceLabel from "@components/price-label";
@@ -15,7 +17,8 @@ import SuspenseWithError from "@components/utils/suspended";
 import { DEFAULT_IMAGE_URL } from "@lib/constants";
 import { buildTenantUrl } from "@lib/urls";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
+
+import useTimeoutState from "../hooks/timeout-state";
 
 const CartButton = dynamic(() => import("@modules/products/ui/components/cart-button"), {
     ssr: false,
@@ -41,6 +44,8 @@ export default function ProductDetailsCard(props: Props) {
 function ProductDetailsCardSuspense({ productId }: Props) {
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.products.getOneById.queryOptions({ id: productId }));
+
+    const [isCopied, setIsCopied] = useTimeoutState(false, 2000);
 
     const policyInfo = useMemo(() => {
         switch (data.policy) {
@@ -90,10 +95,10 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                         </div>
                         <div className="flex flex-1 items-center justify-start p-4">
                             <div className="text-foreground flex items-center gap-2 text-sm">
-                                <StarRating rating={4.6} />
+                                <StarRating rating={data.reviewRating} />
                                 <p>
-                                    {/* TODO Proper ratings */}
-                                    4.3 <span className="text-muted-foreground">(430)</span>
+                                    {data.reviewRating}{" "}
+                                    <span className="text-muted-foreground">({data.reviewCount})</span>
                                 </p>
                             </div>
                         </div>
@@ -111,9 +116,18 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                                 isAlreadyPurchased={data.isPurchased}
                                 isExpanded
                             />
-                            {/* TODO Copy to clipboard */}
-                            <Button size={"icon"} className="h-10">
-                                <LinkIcon />
+                            <Button
+                                size={"icon"}
+                                className="h-10"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(window.location.href);
+                                    toast.success("Product copied to clipboard");
+
+                                    setIsCopied(true);
+                                }}
+                                disabled={isCopied}
+                            >
+                                {isCopied ? <CheckCheckIcon /> : <LinkIcon />}
                             </Button>
                         </div>
 
@@ -124,9 +138,10 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                         <div className="flex justify-between gap-4">
                             <h2 className="font-brand-medium text-xl font-medium">Product Ratings</h2>
                             <span className="flex flex-col items-center gap-2 text-xs lg:flex-row">
-                                <StarRating rating={4.6} />{" "}
+                                <StarRating rating={data.reviewRating} />{" "}
                                 <span>
-                                    4.3 <span className="text-muted-foreground">(430)</span>
+                                    {data.reviewRating}{" "}
+                                    <span className="text-muted-foreground">({data.reviewCount})</span>
                                 </span>
                             </span>
                         </div>
@@ -137,9 +152,8 @@ function ProductDetailsCardSuspense({ productId }: Props) {
                                     <label>
                                         {stars} {stars === 1 ? "star" : "stars"}
                                     </label>
-                                    {/* TODO Proper value rating */}
-                                    <Progress value={20} className="h-[1lh]" />
-                                    <div>{0}%</div>
+                                    <Progress value={data.ratingAggregation[stars] || 0} className="h-[1lh]" />
+                                    <div>{data.ratingAggregation[stars] || 0}%</div>
                                 </Fragment>
                             ))}
                         </div>

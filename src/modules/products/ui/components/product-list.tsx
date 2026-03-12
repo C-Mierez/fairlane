@@ -63,8 +63,8 @@ function ProductListSuspense({ categorySlug, tenantSlug }: Props) {
                                 imageUrl={product.image?.url}
                                 tenantSlug={product.tenant.slug}
                                 tenantImageUrl={product.tenant.image?.url}
-                                reviewCount={435} // TODO Get the real review rating
-                                reviewRating={4.5} // TODO Get the real review rating
+                                reviewCount={product.reviewCount}
+                                reviewRating={product.reviewRating}
                             />
                         ))}
                     </ul>

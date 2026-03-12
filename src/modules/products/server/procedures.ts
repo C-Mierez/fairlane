@@ -46,12 +46,55 @@ export const productsRouter = createTRPCRouter({
                 isPurchased = ordersData.totalDocs > 0;
             }
 
+            const reviews = await ctx.payload.find({
+                collection: "reviews",
+                pagination: false,
+                where: {
+                    product: {
+                        equals: input.id,
+                    },
+                },
+            });
+
+            const reviewRating =
+                reviews.docs.length > 0
+                    ? reviews.docs.reduce((acc, review) => acc + review.rating, 0) / reviews.docs.length
+                    : 0;
+
+            const ratingAggregation: Record<number, number> = {
+                5: 0,
+                4: 0,
+                3: 0,
+                2: 0,
+                1: 0,
+            };
+
+            if (reviews.totalDocs > 0) {
+                reviews.docs.forEach((review) => {
+                    const rating = review.rating;
+
+                    if (rating >= 1 && rating <= 5) {
+                        ratingAggregation[rating] = (ratingAggregation[rating] || 0) + 1;
+                    }
+                });
+
+                Object.keys(ratingAggregation).forEach((key) => {
+                    const rating = Number(key);
+                    const count = ratingAggregation[rating] || 0;
+
+                    ratingAggregation[rating] = Math.round((count / reviews.totalDocs) * 100);
+                });
+            }
+
             return {
                 ...product,
                 image: product.image as Media | null, // Cast is possible because query has depth 2
                 category: product.category as Category, // Cast is possible because query has depth 2
                 tenant: product.tenant as Tenant & { image: Media | null }, // Cast is possible because query has depth 2 and Tenant is required
                 isPurchased,
+                reviewRating,
+                reviewCount: reviews.totalDocs,
+                ratingAggregation,
             };
         }),
 
@@ -162,9 +205,33 @@ export const productsRouter = createTRPCRouter({
             limit: input.limit,
         });
 
+        const dataWithAggregatedReviews = await Promise.all(
+            data.docs.map(async (doc) => {
+                const reviewsData = await ctx.payload.find({
+                    collection: "reviews",
+                    pagination: false,
+                    where: {
+                        product: {
+                            equals: doc.id,
+                        },
+                    },
+                });
+
+                return {
+                    ...doc,
+                    reviewCount: reviewsData.totalDocs,
+                    reviewRating:
+                        reviewsData.docs.length === 0
+                            ? 0
+                            : reviewsData.docs.reduce((acc, review) => acc + review.rating, 0) /
+                              reviewsData.docs.length,
+                };
+            }),
+        );
+
         return {
             ...data,
-            docs: data.docs.map((doc) => ({
+            docs: dataWithAggregatedReviews.map((doc) => ({
                 ...doc,
                 image: doc.image as Media | null, // Cast is possible because query has depth 2
                 tenant: doc.tenant as Tenant & { image: Media | null }, // Cast is possible because query has depth 2 and Tenant is required
