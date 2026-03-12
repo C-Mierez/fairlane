@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import ReviewSidebar from "../components/review-sidebar";
 
 interface Props {
     productId: string;
@@ -33,7 +34,14 @@ export default function LibraryProductView({ productId }: Props) {
                     <h1 className="text-4xl font-medium">{data.name}</h1>
                 </header>
             </section>
-            <section className="bg-background border-t-neo flex-1 px-4 py-8"></section>
+            <section className="bg-background border-t-neo flex-1">
+                <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 px-4 py-8 md:grid-cols-8">
+                    <div className="neo-container p-4 md:col-span-3">
+                        <ReviewSidebar productId={productId} />
+                    </div>
+                    <div className="md:col-span-5">Test</div>
+                </div>
+            </section>
         </div>
     );
 }

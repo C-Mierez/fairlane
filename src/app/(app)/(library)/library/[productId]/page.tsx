@@ -16,6 +16,12 @@ export default async function LibraryProductPage({ params }: Props) {
         }),
     );
 
+    prefetch(
+        trpc.reviews.getOne.queryOptions({
+            productId,
+        }),
+    );
+
     return (
         <HydrateClient>
             <LibraryProductView productId={productId} />
