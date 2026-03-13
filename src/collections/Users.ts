@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { isSuperAdmin } from "@lib/access";
 import { tenantsArrayField } from "@payloadcms/plugin-multi-tenant/fields";
 
 const defaultTenantsArrayField = tenantsArrayField({
@@ -7,16 +8,14 @@ const defaultTenantsArrayField = tenantsArrayField({
     tenantsCollectionSlug: "tenants", // Same as the slug in the Tenants collection
     tenantsArrayTenantFieldName: "tenant",
     arrayFieldAccess: {
-        // TODO Proper access control
         read: () => true,
-        create: () => true,
-        update: () => true,
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
     },
     tenantFieldAccess: {
-        // TODO Proper access control
         read: () => true,
-        create: () => true,
-        update: () => true,
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
     },
 });
 
@@ -24,6 +23,17 @@ export const Users: CollectionConfig = {
     slug: "users",
     admin: {
         useAsTitle: "email",
+        hidden: ({ user }) => !isSuperAdmin(user),
+    },
+    access: {
+        read: () => true,
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req, id }) => {
+            if (isSuperAdmin(req.user)) return true;
+
+            return req.user?.id === id;
+        },
     },
     auth: true,
     fields: [
@@ -43,6 +53,9 @@ export const Users: CollectionConfig = {
             options: ["super-admin", "user"],
             admin: {
                 position: "sidebar",
+            },
+            access: {
+                update: ({ req }) => isSuperAdmin(req.user),
             },
         },
         {

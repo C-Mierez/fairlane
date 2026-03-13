@@ -169,6 +169,9 @@ export interface Tenant {
    */
   slug: string;
   image?: (string | null) | Media;
+  /**
+   * Stripe Account ID associated with your shop.
+   */
   stripeAccountId: string;
   /**
    * You cannot create products until you have submitted your Stripe account details.
@@ -230,6 +233,10 @@ export interface Product {
   policy: 'no-refund' | 'no-exchange' | 'exchange' | 'refund';
   policyDuration: number;
   stock: number;
+  /**
+   * Visible only to customers after purchase. Add product documentation, downloadable files, etc.
+   */
+  content?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -420,6 +427,7 @@ export interface ProductsSelect<T extends boolean = true> {
   policy?: T;
   policyDuration?: T;
   stock?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

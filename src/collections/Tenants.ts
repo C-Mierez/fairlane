@@ -1,9 +1,16 @@
 import type { CollectionConfig } from "payload";
 
+import { isSuperAdmin } from "@lib/access";
+
 export const Tenants: CollectionConfig = {
     slug: "tenants",
     admin: {
         useAsTitle: "slug",
+    },
+    access: {
+        read: () => true,
+        create: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req }) => isSuperAdmin(req.user),
     },
     fields: [
         // Email added by default
@@ -38,6 +45,10 @@ export const Tenants: CollectionConfig = {
             required: true,
             admin: {
                 readOnly: true,
+                description: "Stripe Account ID associated with your shop.",
+            },
+            access: {
+                update: ({ req }) => isSuperAdmin(req.user),
             },
         },
         {
@@ -47,6 +58,9 @@ export const Tenants: CollectionConfig = {
             admin: {
                 readOnly: true,
                 description: "You cannot create products until you have submitted your Stripe account details.",
+            },
+            access: {
+                update: ({ req }) => isSuperAdmin(req.user),
             },
         },
     ],

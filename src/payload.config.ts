@@ -3,6 +3,7 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
+import { isSuperAdmin } from "@lib/access";
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
@@ -49,7 +50,7 @@ export default buildConfig({
             tenantsArrayField: {
                 includeDefaultField: false,
             },
-            userHasAccessToAllTenants: (user) => Boolean(user?.roles?.includes("super-admin")),
+            userHasAccessToAllTenants: (user) => isSuperAdmin(user),
         }),
         // storage-adapter-placeholder
     ],
