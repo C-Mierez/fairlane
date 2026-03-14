@@ -6,6 +6,7 @@ export const Orders: CollectionConfig = {
     slug: "orders",
     admin: {
         useAsTitle: "name",
+        hidden: ({ user }) => !isSuperAdmin(user),
     },
     access: {
         read: () => true,
@@ -37,6 +38,13 @@ export const Orders: CollectionConfig = {
             name: "stripeCheckoutSessionId",
             type: "text",
             required: true,
+        },
+        {
+            name: "stripeAccountId",
+            type: "text",
+            admin: {
+                description: "The Stripe account ID of the tenant that owns the product",
+            },
         },
     ],
 };

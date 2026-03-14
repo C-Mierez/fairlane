@@ -1,13 +1,15 @@
+import type { Stripe } from "stripe";
 import { z } from "zod";
 
+import { env } from "@/env";
 import type { Media, Tenant } from "@/payload-types";
 import { authedProcedure, baseProcedure, createTRPCRouter } from "@/trpc/init";
-import { TRPCError } from "@trpc/server";
-import type { Stripe } from "stripe";
-import type { CheckoutUserMetadata, ProductMetadata } from "../types";
+import { STRIPE_FEE_PERCENTAGE } from "@lib/constants";
 import { stripe } from "@lib/stripe";
-import { env } from "@/env";
-import { buildCheckoutUrl, buildTenantUrl } from "@lib/urls";
+import { buildCheckoutUrl } from "@lib/urls";
+import { TRPCError } from "@trpc/server";
+
+import type { CheckoutUserMetadata, ProductMetadata } from "../types";
 
 export const checkoutRouter = createTRPCRouter({
     getProducts: baseProcedure
@@ -47,6 +49,51 @@ export const checkoutRouter = createTRPCRouter({
         }),
 
     /* -------------------------------- Mutation -------------------------------- */
+    verify: authedProcedure.mutation(async ({ ctx }) => {
+        const user = await ctx.payload.findByID({
+            collection: "users",
+            id: ctx.session.user.id,
+            depth: 0,
+        });
+
+        if (!user) {
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "User not found",
+            });
+        }
+
+        const tenantId = user.tenants?.[0]?.tenant as string; // Guaranteed by the depth 0
+        const tenant = await ctx.payload.findByID({
+            collection: "tenants",
+            id: tenantId,
+        });
+
+        if (!tenant) {
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Tenant not found",
+            });
+        }
+
+        const accountLink = await stripe.accountLinks.create({
+            account: tenant.stripeAccountId,
+            refresh_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/admin`,
+            return_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/admin`,
+            type: "account_onboarding",
+        });
+
+        if (!accountLink.url) {
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "Failed to create Stripe account link",
+            });
+        }
+
+        return {
+            url: accountLink.url,
+        };
+    }),
     purchaseProducts: authedProcedure
         .input(
             z.object({
@@ -99,7 +146,13 @@ export const checkoutRouter = createTRPCRouter({
                 });
             }
 
-            // TODO Throw error if Stripe details are not submitted
+            // Throw error if Stripe details are not submitted
+            if (!tenant.stripeDetailsSubmitted) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Tenant has not completed Stripe onboarding",
+                });
+            }
 
             const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = products.docs.map((product) => ({
                 quantity: 1,
@@ -118,19 +171,31 @@ export const checkoutRouter = createTRPCRouter({
                 },
             }));
 
-            const checkout = await stripe.checkout.sessions.create({
-                customer_email: ctx.session.user.email,
-                success_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { success: "true" })}`,
-                cancel_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { cancel: "true" })}`,
-                mode: "payment",
-                line_items: lineItems,
-                invoice_creation: {
-                    enabled: true,
+            const totalAmount = products.docs.reduce((acc, item) => acc + item.price * 100, 0);
+
+            const platformFeeAmount = Math.round((totalAmount * STRIPE_FEE_PERCENTAGE) / 100);
+
+            const checkout = await stripe.checkout.sessions.create(
+                {
+                    customer_email: ctx.session.user.email,
+                    success_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { success: "true" })}`,
+                    cancel_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { cancel: "true" })}`,
+                    mode: "payment",
+                    line_items: lineItems,
+                    invoice_creation: {
+                        enabled: true,
+                    },
+                    metadata: {
+                        userId: ctx.session.user.id,
+                    } as CheckoutUserMetadata,
+                    payment_intent_data: {
+                        application_fee_amount: platformFeeAmount,
+                    },
                 },
-                metadata: {
-                    userId: ctx.session.user.id,
-                } as CheckoutUserMetadata,
-            });
+                {
+                    stripeAccount: tenant.stripeAccountId,
+                },
+            );
 
             if (!checkout.url) {
                 throw new TRPCError({

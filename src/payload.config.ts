@@ -29,6 +29,9 @@ export default buildConfig({
         importMap: {
             baseDir: path.resolve(dirname),
         },
+        components: {
+            beforeNavLinks: ["@/components/stripe-verify-button"],
+        },
     },
     collections: [Users, Media, Categories, Products, Tags, Tenants, Orders, Reviews],
     cookiePrefix: "fairlane",

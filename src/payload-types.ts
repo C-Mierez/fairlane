@@ -261,6 +261,10 @@ export interface Order {
   user: string | User;
   product: string | Product;
   stripeCheckoutSessionId: string;
+  /**
+   * The Stripe account ID of the tenant that owns the product
+   */
+  stripeAccountId?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -463,6 +467,7 @@ export interface OrdersSelect<T extends boolean = true> {
   user?: T;
   product?: T;
   stripeCheckoutSessionId?: T;
+  stripeAccountId?: T;
   updatedAt?: T;
   createdAt?: T;
 }

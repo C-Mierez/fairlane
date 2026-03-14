@@ -6,6 +6,7 @@ export const Reviews: CollectionConfig = {
     slug: "reviews",
     admin: {
         useAsTitle: "description",
+        hidden: ({ user }) => !isSuperAdmin(user),
     },
     access: {
         read: () => true,
