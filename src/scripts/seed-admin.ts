@@ -1,26 +1,29 @@
 import { getPayload } from "payload";
 
 import payloadConfig from "@payload-config";
+import { stripe } from "@lib/stripe";
 
 async function seedAdmin() {
     const payload = await getPayload({ config: payloadConfig });
+
+    const stripeAccount = await stripe.accounts.create({});
 
     const tenant = await payload.create({
         collection: "tenants",
         data: {
             name: "demoAdmin",
             slug: "demoAdmin",
-            stripeAccountId: "test", // TODO Add actual stripe account id
+            stripeAccountId: stripeAccount.id,
         },
     });
 
     await payload.create({
         collection: "users",
         data: {
-            email: "demo@demo.com",
-            password: "demo",
+            email: "admin@demo.com",
+            password: "demodemo",
             roles: ["super-admin"],
-            username: "demoAdmin",
+            username: "admin",
             tenants: [
                 {
                     tenant: tenant.id,

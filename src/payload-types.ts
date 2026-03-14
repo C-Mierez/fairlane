@@ -186,6 +186,7 @@ export interface Tenant {
  */
 export interface Media {
   id: string;
+  tenant?: (string | null) | Tenant;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -237,6 +238,10 @@ export interface Product {
    * Visible only to customers after purchase. Add product documentation, downloadable files, etc.
    */
   content?: string | null;
+  /**
+   * If checked, this product will be hidden from the storefront and customers won't be able to purchase it.
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -390,6 +395,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  tenant?: T;
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -432,6 +438,7 @@ export interface ProductsSelect<T extends boolean = true> {
   policyDuration?: T;
   stock?: T;
   content?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
 }

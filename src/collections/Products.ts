@@ -14,7 +14,6 @@ export const Products: CollectionConfig = {
 
             return Boolean(tenant?.stripeDetailsSubmitted);
         },
-        update: ({ req }) => isSuperAdmin(req.user),
         delete: ({ req }) => isSuperAdmin(req.user),
     },
     fields: [
@@ -78,6 +77,16 @@ export const Products: CollectionConfig = {
             admin: {
                 description:
                     "Visible only to customers after purchase. Add product documentation, downloadable files, etc.",
+            },
+        },
+        {
+            name: "isArchived",
+            label: "Archive",
+            defaultValue: false,
+            type: "checkbox",
+            admin: {
+                description:
+                    "If checked, this product will be hidden from the storefront and customers won't be able to purchase it.",
             },
         },
     ],

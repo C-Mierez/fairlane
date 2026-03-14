@@ -1,6 +1,8 @@
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
+import SuspenseWithError from "@components/utils/suspended";
 import ProductNavbar from "@modules/products/ui/components/product-navbar";
 import ProductView from "@modules/products/ui/views/product-view";
+import { Suspense } from "react";
 
 interface Props {
     params: Promise<{
@@ -16,8 +18,10 @@ export default async function ProductPage({ params }: Props) {
 
     return (
         <HydrateClient>
+            {/* <SuspenseWithError fallback={<div>Loading...</div>} error={<div>Failed to load product</div>}> */}
             <ProductNavbar productId={productId} tenantSlug={tenantSlug} />
             <ProductView productId={productId} tenantSlug={tenantSlug} />
+            {/* </SuspenseWithError> */}
         </HydrateClient>
     );
 }

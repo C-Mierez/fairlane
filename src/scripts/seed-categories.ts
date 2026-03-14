@@ -55,14 +55,14 @@ const CATEGORIES = [
         slug: "other",
     },
     {
-        name: "Education",
+        name: "Food & Cooking",
         color: "primary",
-        slug: "education",
+        slug: "food-cooking",
         subcategories: [
-            { name: "Online Courses", slug: "online-courses" },
-            { name: "Tutoring", slug: "tutoring" },
-            { name: "Test Preparation", slug: "test-preparation" },
-            { name: "Language Learning", slug: "language-learning" },
+            { name: "Baking", slug: "baking" },
+            { name: "Vegan Cooking", slug: "vegan-cooking" },
+            { name: "World Cuisines", slug: "world-cuisines" },
+            { name: "Meal Prep", slug: "meal-prep" },
         ],
     },
     {
