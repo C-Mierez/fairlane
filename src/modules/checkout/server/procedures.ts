@@ -192,8 +192,8 @@ export const checkoutRouter = createTRPCRouter({
             const checkout = await stripe.checkout.sessions.create(
                 {
                     customer_email: ctx.session.user.email,
-                    success_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { success: "true" })}`,
-                    cancel_url: `${env.NEXT_PUBLIC_WEBSITE_URL}/${buildCheckoutUrl(input.tenantSlug, { cancel: "true" })}`,
+                    success_url: `${buildCheckoutUrl(input.tenantSlug, { success: "true" })}`,
+                    cancel_url: `${buildCheckoutUrl(input.tenantSlug, { cancel: "true" })}`,
                     mode: "payment",
                     line_items: lineItems,
                     invoice_creation: {

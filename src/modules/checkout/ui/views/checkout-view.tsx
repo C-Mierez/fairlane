@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import CheckoutDetails from "../components/checkout-details";
 import CheckoutList from "../components/checkout-list";
+import { buildRootUrl } from "@lib/urls";
 
 interface Props {
     tenantSlug: string;
@@ -47,8 +48,7 @@ export default function CheckoutView({ tenantSlug }: Props) {
             },
             onError: (error) => {
                 if (error.data?.code === "UNAUTHORIZED") {
-                    // TODO Adapt to subdomains
-                    router.push("/sign-in");
+                    window.location.href = buildRootUrl("/sign-in");
                 }
             },
         }),
