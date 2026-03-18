@@ -9,6 +9,7 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
 
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
@@ -18,6 +19,7 @@ import { Reviews } from "./collections/Reviews";
 import { Tags } from "./collections/Tags";
 import { Tenants } from "./collections/Tenants";
 import { Users } from "./collections/Users";
+import { env } from "./env";
 import type { Config } from "./payload-types";
 
 const filename = fileURLToPath(import.meta.url);
@@ -56,6 +58,15 @@ export default buildConfig({
             },
             userHasAccessToAllTenants: (user) => isSuperAdmin(user),
         }),
-        // storage-adapter-placeholder
+        uploadthingStorage({
+            collections: {
+                media: true,
+            },
+            options: {
+                token: env.UPLOADTHING_TOKEN,
+                acl: "public-read",
+            },
+            clientUploads: true,
+        }),
     ],
 });
