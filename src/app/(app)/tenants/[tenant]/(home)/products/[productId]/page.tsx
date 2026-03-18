@@ -1,8 +1,6 @@
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
-import SuspenseWithError from "@components/utils/suspended";
 import ProductNavbar from "@modules/products/ui/components/product-navbar";
 import ProductView from "@modules/products/ui/views/product-view";
-import { Suspense } from "react";
 
 interface Props {
     params: Promise<{
