@@ -6,6 +6,7 @@ import { TRPCError } from "@trpc/server";
 
 import type { LoginSchema } from "../schema";
 import type { BasePayload } from "payload";
+import { env } from "@/env";
 
 export function buildPayloadCookieKey(payload: BasePayload) {
     return `${payload.config.cookiePrefix}-token`;
@@ -39,9 +40,11 @@ export async function loginUser(ctx: Context, input: z.infer<typeof LoginSchema>
     c.set(buildPayloadCookieKey(ctx.payload), res.token, {
         httpOnly: true,
         path: "/",
-        // TODO: Ensure cross-domain cookies are set correctly
-        // sameSite: "none",
-        // domain: ""
+        ...(env.NODE_ENV !== "development" && {
+            sameSite: "none",
+            domain: env.NEXT_PUBLIC_ROOT_DOMAIN,
+            secure: true,
+        }),
     });
 
     return res;
