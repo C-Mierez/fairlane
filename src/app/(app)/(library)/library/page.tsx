@@ -4,9 +4,14 @@ import LibraryView from "@modules/library/ui/views/library-view";
 
 export default async function LibraryPage() {
     prefetch(
-        trpc.library.getInfinite.infiniteQueryOptions({
-            limit: DEFAULT_PAGINATION_LIMIT,
-        }),
+        trpc.library.getInfinite.infiniteQueryOptions(
+            {
+                limit: DEFAULT_PAGINATION_LIMIT,
+            },
+            {
+                getNextPageParam: (lastPage) => (lastPage.docs.length > 0 ? lastPage.nextPage : undefined),
+            },
+        ),
     );
 
     return (

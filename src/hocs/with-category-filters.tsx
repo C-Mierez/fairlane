@@ -41,9 +41,14 @@ export function withCategoryFilters<P extends WithCategoryFiltersProps>(Componen
         );
 
         prefetch(
-            trpc.tags.getInfinite.infiniteQueryOptions({
-                limit: DEFAULT_PAGINATION_LIMIT,
-            }),
+            trpc.tags.getInfinite.infiniteQueryOptions(
+                {
+                    limit: DEFAULT_PAGINATION_LIMIT,
+                },
+                {
+                    getNextPageParam: (lastPage) => (lastPage.docs.length > 0 ? lastPage.nextPage : undefined),
+                },
+            ),
         );
 
         const componentProps = {
