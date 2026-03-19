@@ -39,6 +39,7 @@ function ProductListSuspense({ categorySlug, tenantSlug }: Props) {
                 maxPrice: filters.maxPrice,
                 tags: filters.tags,
                 sort: filters.sort,
+                search: filters.search,
                 limit: DEFAULT_PAGINATION_LIMIT,
             },
             {

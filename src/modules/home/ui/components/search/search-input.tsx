@@ -1,11 +1,15 @@
 import type { ComponentProps } from "react";
 
-import { SearchIcon, ShoppingBagIcon } from "lucide-react";
+import {
+    SearchIcon,
+    ShoppingBagIcon,
+} from "lucide-react";
 
 import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
+import type { Input } from "@components/ui/input";
 
 import LibraryButton from "../library-button";
+import SearchInputClient from "./search-input-client";
 
 export default function SearchInput(props: ComponentProps<typeof Input>) {
     return (
@@ -14,7 +18,11 @@ export default function SearchInput(props: ComponentProps<typeof Input>) {
                 <span className="neo-container !border-r-none bg-background grid aspect-square size-10 place-items-center !rounded-r-none">
                     <SearchIcon className="size-4" />
                 </span>
-                <Input {...props} className="!rounded-l-none !border-l-0" focus={"none"} />
+               
+    <SearchInputClient
+      {...props}
+    />
+  
             </div>
             <LibraryButton />
             <Button>
@@ -25,3 +33,10 @@ export default function SearchInput(props: ComponentProps<typeof Input>) {
         </div>
     );
 }
+
+
+      
+
+
+      
+   

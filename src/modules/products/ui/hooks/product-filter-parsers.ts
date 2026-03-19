@@ -8,6 +8,11 @@ export const ProductFiltersParser = {
     maxPrice: parseAsInteger,
     tags: parseAsArrayOf(parseAsString).withDefault([]),
     sort: parseAsStringLiteral(ProductSortSchema.options).withDefault("trending"),
+    search: parseAsString
+        .withOptions({
+            clearOnDefault: true,
+        })
+        .withDefault(""),
 };
 
 export type ProductFiltersType = typeof ProductFiltersParser;
@@ -17,6 +22,7 @@ export const ProductFiltersKeys: UrlKeys<ProductFiltersType> = {
     maxPrice: "max",
     tags: "tags",
     sort: "sort",
+    search: "search",
 };
 
 export const loadProductFilters = createLoader(ProductFiltersParser);

@@ -167,6 +167,13 @@ export const productsRouter = createTRPCRouter({
             };
         }
 
+        if (input.search) {
+            where["name"] = {
+                like: input.search
+            } 
+            
+        }
+
         if (input.tenantSlug) {
             where["tenant.slug"] = {
                 equals: input.tenantSlug,
