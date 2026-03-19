@@ -48,6 +48,7 @@ export default function SignUpForm() {
             async onSuccess() {
                 toast.success("Account created");
                 await invalidateOnSignIn(queryClient, trpc);
+                router.refresh();
                 router.push("/");
             },
         }),

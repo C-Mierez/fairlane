@@ -27,6 +27,7 @@ export default function SignInForm() {
             async onSuccess() {
                 toast.success("Successfully logged in");
                 await invalidateOnSignIn(queryClient, trpc);
+                router.refresh();
                 router.push("/");
             },
         }),
