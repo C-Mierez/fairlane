@@ -12,12 +12,12 @@ import { getQueryClient, getTRPCClient, useTRPC } from "@/trpc/client";
 import { Button } from "@components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
 import { Input } from "@components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { invalidateOnSignIn } from "@lib/invalidations";
 import { buildSubdomainUrl } from "@lib/urls";
 import { RegisterSchema, type RegisterSchemaType } from "@modules/auth/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTRPCQueryUtils } from "@trpc/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const RegisterSchemaWithUniqueUsername = RegisterSchema.extend({
     username: RegisterSchema.shape.username.refine(
@@ -54,7 +54,7 @@ export default function SignUpForm() {
     );
 
     const form = useForm<RegisterSchemaType>({
-        resolver: zodResolver(RegisterSchemaWithUniqueUsername, { async: true }),
+        resolver: zodResolver(RegisterSchemaWithUniqueUsername),
         defaultValues: {
             email: "",
             password: "",
