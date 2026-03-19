@@ -9,7 +9,7 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
 import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
@@ -46,10 +46,6 @@ export default buildConfig({
         url: process.env.DATABASE_URI || "",
     }),
     sharp,
-    upload: {
-        tempFileDir: "/tmp"
-    },
-    serverURL: env.NEXT_PUBLIC_WEBSITE_URL,
     plugins: [
         payloadCloudPlugin(),
         multiTenantPlugin<Config>({
@@ -62,14 +58,14 @@ export default buildConfig({
             },
             userHasAccessToAllTenants: (user) => isSuperAdmin(user),
         }),
-        uploadthingStorage({
+        vercelBlobStorage({
+            enabled: true,
             collections: {
-                media: true,
+                media: true
             },
-            options: {
-                token: env.UPLOADTHING_TOKEN,
-            },
-            clientUploads: true,
-        }),
+            token: env.BLOB_READ_WRITE_TOKEN,
+            
+            clientUploads: true
+        })
     ],
 });
