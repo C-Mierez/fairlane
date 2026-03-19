@@ -46,6 +46,9 @@ export default buildConfig({
         url: process.env.DATABASE_URI || "",
     }),
     sharp,
+    upload: {
+        tempFileDir: "/tmp"
+    },
     plugins: [
         payloadCloudPlugin(),
         multiTenantPlugin<Config>({
@@ -60,7 +63,9 @@ export default buildConfig({
         }),
         uploadthingStorage({
             collections: {
-                media: true,
+                media: {
+                    
+                },
             },
             options: {
                 token: env.UPLOADTHING_TOKEN,
