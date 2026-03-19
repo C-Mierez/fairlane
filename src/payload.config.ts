@@ -63,9 +63,7 @@ export default buildConfig({
         }),
         uploadthingStorage({
             collections: {
-                media: {
-                    
-                },
+                media: true,
             },
             options: {
                 token: env.UPLOADTHING_TOKEN,
