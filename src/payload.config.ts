@@ -49,6 +49,7 @@ export default buildConfig({
     upload: {
         tempFileDir: "/tmp"
     },
+    serverURL: env.NEXT_PUBLIC_WEBSITE_URL,
     plugins: [
         payloadCloudPlugin(),
         multiTenantPlugin<Config>({
@@ -67,7 +68,6 @@ export default buildConfig({
             },
             options: {
                 token: env.UPLOADTHING_TOKEN,
-                acl: "public-read",
             },
             clientUploads: true,
         }),
