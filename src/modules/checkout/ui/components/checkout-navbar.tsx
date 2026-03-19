@@ -30,17 +30,10 @@ function CheckoutNavbarSuspense({ tenantSlug }: Props) {
 
     return (
         <section className="h-header bg-background border-b-neo sticky top-0 right-0 left-0 z-50 flex items-center justify-between gap-2 px-4 md:px-8">
-            <div className="flex items-center gap-2">
-                {!!data.image && !!data.image.url && (
-                    <Link
-                        href={buildTenantUrl(data.slug)}
-                        className="rounded-base relative aspect-square size-8 overflow-hidden"
-                    >
-                        <Image src={data.image.url} alt={data.name} fill />
-                    </Link>
-                )}
+            <Link className="flex items-center gap-2" href={buildTenantUrl(data.slug)}>
+                {!!data.image && !!data.image.url && <Image src={data.image.url} alt={data.name} fill />}
                 <div className="font-brand-medium text-2xl font-medium">{data.name}</div>
-            </div>
+            </Link>
 
             <Button variant={"inverted"} hover={"ghost_inverted"} asChild>
                 <Link href={buildTenantUrl(tenantSlug)}>Back to Store</Link>
